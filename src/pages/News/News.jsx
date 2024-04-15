@@ -74,7 +74,7 @@ function News() {
     <div className='blog-page'>
         <header className='height-75'>
             <div className='container h-100 d-flex flex-column align-items-center justify-content-center text-light'>
-                <h1 className='text-center fw-semibold'>News Details</h1>
+                <h1 className='text-center fw-semibold'>Notice Information</h1>
                 {/*<p className='text-center w-75 mb-5'>News Details</p>*/}
             </div>
         </header>

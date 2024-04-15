@@ -53,6 +53,31 @@ function Home() {
     const headerImages = [StartCoursesImg, Blog1Img, Blog2Img, Blog3Img]; // Add more images as needed
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return (
     <div className='home-page'>
         <Slider {...sliderSettings} className='header-slider'>
@@ -63,7 +88,7 @@ function Home() {
                             <h1 className='new text-center fw-semibold'>IETP Course Platform</h1>
                             <p> Integrated Engineering Team Project is a course given to Addis Ababa Science and Technology University students 1 year before their graduation </p>       <div className='d-flex flex-column flex-sm-row align-items-center'>
                             <h3>
-                                Are you that student ?
+                                Are you that stake ?
                             </h3>
                             <Link to="/login">
                                 <button type='button' className='btn btn-outline-light btn-lg mx-0 mx-sm-2 my-2 my-sm-0'>Login</button>

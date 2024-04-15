@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import {Routes, Route, Link, BrowserRouter} from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, IconButton, Box, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Home from './pages/Home/Home';
@@ -8,7 +8,17 @@ import About from './pages/About/About';
 import News from './pages/News/News';
 import Login from './pages/Contact/Login';
 import styled from 'styled-components';
-import Logo from './utils/images/logo.svg'; // Make sure the path to your logo is correct
+import Logo from './utils/images/logo.svg';
+import Dashboard from "./pages/Student/scenes/dashboard";
+import Task from "./pages/Student/scenes/task";
+import Messages from "./pages/Student/scenes/messages";
+import Notifications from "./pages/Student/scenes/notifications";
+import Reports from "./pages/Student/scenes/report";
+import Calendar from "./pages/Student/scenes/calendar";
+import Accounts from "./pages/Student/scenes/account";
+import Settings from "./pages/Student/scenes/setting"; // Make sure the path to your logo is correct
+
+
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -17,6 +27,7 @@ const StyledLink = styled(Link)`
 
 const App = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
+
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -35,7 +46,7 @@ const App = () => {
                     <ListItemText primary="About" />
                 </ListItem>
                 <ListItem button component={StyledLink} to="/news">
-                    <ListItemText primary="News" />
+                    <ListItemText primary="Notice" />
                 </ListItem>
                 <ListItem button component={StyledLink} to="/login">
                     <ListItemText primary="Login" />
@@ -45,9 +56,11 @@ const App = () => {
     );
 
     return (
-        <Router>
+<BrowserRouter>
             <Box sx={{ display: 'inline' } }>
-                <AppBar position="relative" sx={{ width: { sm: `calc(100% - ${240}px)` }, ml: { sm: `${240}px` } }}>
+                <AppBar position="relative" sx={{ width: { sm: `calc(100% - ${0}px)` }, ml: { sm: `${0}px` } ,
+                    // backgroundColor:'red'
+                }}>
                     <Toolbar>
                         <IconButton
                             color="inherit"
@@ -59,13 +72,13 @@ const App = () => {
                             <MenuIcon />
                         </IconButton>
                         <Box component="img" src={Logo} alt="Logo" sx={{ height: 50, display: { xs: 'none', sm: 'block' } }} />
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 , my: 2 }}>
+                        <Typography variant="h4" component="div" sx={{ flexGrow: 1 , my: 2 , marginLeft:'30px'}}>
                             IETP
                         </Typography>
                         <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                             <Button color="inherit" component={StyledLink} to="/">Home</Button>
                             <Button color="inherit" component={StyledLink} to="/about">About</Button>
-                            <Button color="inherit" component={StyledLink} to="/news">News</Button>
+                            <Button color="inherit" component={StyledLink} to="/news">Notice</Button>
                             <Button color="inherit" component={StyledLink} to="/login">Login</Button>
                         </Box>
                     </Toolbar>
@@ -89,10 +102,23 @@ const App = () => {
                         <Route path="/about" element={<About />} />
                         <Route path="/news" element={<News />} />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/student" element={<Dashboard />} />
+                        <Route path="/student/task" element={<Task />} />
+                        <Route path="/student/messages" element={<Messages />} />
+                        <Route path="/student/notifications" element={<Notifications />} />
+                        <Route path="/student/report" element={<Reports />} />
+                        <Route path="/student/calendar" element={<Calendar/>}/>
+                        <Route path="/student/account" element={<Accounts/>}/>
+                        <Route path="/student/setting" element={<Settings/>}/>
+
+
+
                     </Routes>
+
+
                 </Box>
-            </Box>
-        </Router>
+            </Box></BrowserRouter>
+
     );
 }
 
