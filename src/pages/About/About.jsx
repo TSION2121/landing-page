@@ -66,13 +66,12 @@ function About() {
             <div className="row">
                 <div className='col-lg-6 d-flex flex-column justify-content-center mb-4 mb-lg-0'>
                     <h2 className='mb-4 mb-lg-5'>IETP Course</h2>
-                    <p className='mb-4 mb-lg-5'>The  Integrated Engineering Team Project (IETP )  Management System is the very first system in Addis Ababa Science and Technology (AASTU), which is intended to automate and simplify the manual procedures in the IETP course , which is included in the new curriculum starting from 2015 E.C.
-                        As the first batch, we took the IETP course last year and we are excited to work on this system as we were part of it and accomplished it delightfully.
+                    <p className='mb-4 mb-lg-5 '>The  Integrated Engineering Team Project (IETP )  Management System is the very first system in Addis Ababa Science and Technology (AASTU), which is intended to automate and simplify the manual procedures in the IETP course , which is included in the new curriculum starting from 2015 E.C.
 
                         </p>
-                    <Link to="/contact">
-                        <button type='button' className='btn btn-danger btn-lg mx-0 mx-sm-2 my-2 my-sm-0'>Contact Us</button>
-                    </Link>
+                    {/*<Link to="/contact">*/}
+                    {/*    <button type='button' className='btn btn-danger btn-lg mx-0 mx-sm-2 my-2 my-sm-0'>Contact Us</button>*/}
+                    {/*</Link>*/}
                 </div>
                 <div className='col-lg-6 d-flex justify-content-center'>
                     <img src={AboutUsSectionImg} className='img-fluid w-75' alt="" />
