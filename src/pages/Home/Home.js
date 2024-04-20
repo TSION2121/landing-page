@@ -54,49 +54,26 @@ function Home() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     return (
     <div className='home-page'>
         <Slider {...sliderSettings} className='header-slider'>
             {headerImages.map((img, index) => (
-                <div key={index} className='header-slide' style={{ backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh' }}>                    <header className='h-100 min-vh-100 d-flex align-items-center text-light'>
+                <img key={index} className='header-slide' src={img} style={{ backgroundImage: `url("${img}")`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh' }}>
+                    {/*<header className='h-100 min-vh-100 d-flex align-items-center text-light'>*/}
 
-                        <div className='container d-flex flex-column align-items-center'>
-                            <h1 className='new text-center fw-semibold'>IETP Course Platform</h1>
-                            <p> Integrated Engineering Team Project is a course given to Addis Ababa Science and Technology University students 1 year before their graduation </p>       <div className='d-flex flex-column flex-sm-row align-items-center'>
-                            <h3>
-                                Are you that stake ?
-                            </h3>
-                            <Link to="/login">
-                                <button type='button' className='btn btn-outline-light btn-lg mx-0 mx-sm-2 my-2 my-sm-0'>Login</button>
-                            </Link>
+                    {/*    <div className='container d-flex flex-column align-items-center'>*/}
+                    {/*        <h1 className='new text-center fw-semibold'>IETP Course Platform</h1>*/}
+                    {/*        <p> Integrated Engineering Team Project is a course given to Addis Ababa Science and Technology University students 1 year before their graduation </p>       <div className='d-flex flex-column flex-sm-row align-items-center'>*/}
+                    {/*        <h3>*/}
+                    {/*            Are you that stake ?*/}
+                    {/*        </h3>*/}
+                    {/*        <Link to="/login">*/}
+                    {/*            <button type='button' className='btn btn-outline-light btn-lg mx-0 mx-sm-2 my-2 my-sm-0'>Login</button>*/}
+                    {/*        </Link>*/}
 
-                        </div></div>
-                    </header>
-                </div>
+                    {/*    </div></div>*/}
+                    {/*</header>*/}
+                </img>
             ))}
         </Slider>
 

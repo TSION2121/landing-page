@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {Routes, Route, Link, BrowserRouter} from 'react-router-dom';
+import React, {Suspense, useState} from 'react';
+import {Routes, Route, Link, BrowserRouter, Outlet} from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, IconButton, Box, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Home from './pages/Home/Home';
@@ -16,7 +16,21 @@ import Notifications from "./pages/Student/scenes/notifications";
 import Reports from "./pages/Student/scenes/report";
 import Calendar from "./pages/Student/scenes/calendar";
 import Accounts from "./pages/Student/scenes/account";
-import Settings from "./pages/Student/scenes/setting"; // Make sure the path to your logo is correct
+import Settings from "./pages/Student/scenes/setting";
+import UserPage from "./pages/stakes/src/pages/user";
+import DashboardLayout from "./pages/stakes/src/layouts/dashboard";
+import {IndexPage} from "./pages/stakes/src/routes/sections";
+import AdminRoutes from "./AdminRoutes";
+import {HelmetProvider} from "react-helmet-async";
+import ProductsPage from "./pages/stakes/src/pages/products";
+import AppPage from "./pages/stakes/src/pages/app";
+import MainPage from "./pages/Admin/Main";
+import {ThemeProvider} from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container"; // Make sure the path to your logo is correct
+import theme from './pages/Admin/theme';
+import UsersPage from "./pages/Admin/UsersPage";
+import FileUpload from "./pages/Admin/FileUpload"; // Import your custom theme
 
 
 
@@ -56,68 +70,102 @@ const App = () => {
     );
 
     return (
-<BrowserRouter>
-            <Box sx={{ display: 'inline' } }>
-                <AppBar position="relative" sx={{ width: { sm: `calc(100% - ${0}px)` }, ml: { sm: `${0}px` } ,
-                    // backgroundColor:'red'
-                }}>
-                    <Toolbar>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            edge="start"
-                            onClick={handleDrawerToggle}
-                            sx={{ mr: 2, display: { sm: 'none' } }}
+
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Container maxWidth="lg">
+
+                <Box sx={{ display: 'inline' } }>
+                    <AppBar position="relative" sx={{ width: { sm: `calc(100% - ${0}px)` }, ml: { sm: `${0}px` } ,
+                        // backgroundColor:'red'
+                    }}>
+                        <Toolbar>
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                edge="start"
+                                onClick={handleDrawerToggle}
+                                sx={{ mr: 2, display: { sm: 'none' } }}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Box component="img" src={Logo} alt="Logo" sx={{ height: 50, display: { xs: 'none', sm: 'block' } }} />
+                            <Typography variant="h4" component="div" sx={{ flexGrow: 1 , my: 2 , marginLeft:'30px'}}>
+                                IETP
+                            </Typography>
+                            <Box sx={{ display: { xs: 'none', sm: 'block' }, ml: '30px' }}>
+
+                                <Button color="inherit" component={StyledLink} to="/">Home</Button>
+                                <Button color="inherit" component={StyledLink} to="/about">About</Button>
+                                <Button color="inherit" component={StyledLink} to="/news">Notice</Button>
+                                <Button color="inherit" component={StyledLink} to="/login">Login</Button>
+
+                            </Box>
+                        </Toolbar>
+                    </AppBar>
+                    <Box component="nav">
+                        <Drawer
+                            variant="temporary"
+                            open={mobileOpen}
+                            onClose={handleDrawerToggle}
+                            ModalProps={{ keepMounted: true }} // Better open performance on mobile.
+                            sx={{ display: { xs: 'block', sm: 'none' }, '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 } }}
                         >
-                            <MenuIcon />
-                        </IconButton>
-                        <Box component="img" src={Logo} alt="Logo" sx={{ height: 50, display: { xs: 'none', sm: 'block' } }} />
-                        <Typography variant="h4" component="div" sx={{ flexGrow: 1 , my: 2 , marginLeft:'30px'}}>
-                            IETP
-                        </Typography>
-                        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                            <Button color="inherit" component={StyledLink} to="/">Home</Button>
-                            <Button color="inherit" component={StyledLink} to="/about">About</Button>
-                            <Button color="inherit" component={StyledLink} to="/news">Notice</Button>
-                            <Button color="inherit" component={StyledLink} to="/login">Login</Button>
-                        </Box>
-                    </Toolbar>
-                </AppBar>
-                <Box component="nav">
-                    <Drawer
-                        variant="temporary"
-                        open={mobileOpen}
-                        onClose={handleDrawerToggle}
-                        ModalProps={{ keepMounted: true }} // Better open performance on mobile.
-                        sx={{ display: { xs: 'block', sm: 'none' }, '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 } }}
-                    >
-                        {drawer}
-                    </Drawer>
+                            {drawer}
+                        </Drawer>
+                    </Box>
+                    <Box component="main" sx={{ p: 3 }}>
+                        <Toolbar />
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/courses" element={<Courses />} />
+                            <Route path="/about" element={<About />} />
+                            <Route path="/news" element={<News />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/student" element={<Dashboard />} />
+                            <Route path="/student/task" element={<Task />} />
+                            <Route path="/student/messages" element={<Messages />} />
+                            <Route path="/student/notifications" element={<Notifications />} />
+                            <Route path="/student/report" element={<Reports />} />
+                            <Route path="/student/calendar" element={<Calendar/>}/>
+                            <Route path="/student/account" element={<Accounts/>}/>
+                            <Route path="/student/setting" element={<Settings/>}/>
+                            <Route path="/file" element={<FileUpload />} />
+                            <Route path="/analysis" element={<MainPage />} />
+                            <Route path='/users' element={<UsersPage />}/>
+
+
+                            <Route path="admin/*" element={<AdminRoutes />} /> {/* Nested admin routes */}
+
+                            <Route path="/dashboard" element={<DashboardLayout >
+                                <Suspense>
+                                    <Outlet />
+                                </Suspense>
+                            </DashboardLayout>} />
+                            <Route path="/user" element={
+
+                                <UserPage /> } />
+                            <Route path="/products" element={<ProductsPage />} />
+                            <Route path="new"   element={
+                                <DashboardLayout>
+                                    <Suspense>
+                                        <Outlet /><AppPage/></Suspense>
+                                </DashboardLayout>}/>
+
+
+
+
+
+
+
+                        </Routes>
+
+
+                    </Box>
                 </Box>
-                <Box component="main" sx={{ p: 3 }}>
-                    <Toolbar />
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/courses" element={<Courses />} />
-                        <Route path="/about" element={<About />} />
-                        <Route path="/news" element={<News />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/student" element={<Dashboard />} />
-                        <Route path="/student/task" element={<Task />} />
-                        <Route path="/student/messages" element={<Messages />} />
-                        <Route path="/student/notifications" element={<Notifications />} />
-                        <Route path="/student/report" element={<Reports />} />
-                        <Route path="/student/calendar" element={<Calendar/>}/>
-                        <Route path="/student/account" element={<Accounts/>}/>
-                        <Route path="/student/setting" element={<Settings/>}/>
 
-
-
-                    </Routes>
-
-
-                </Box>
-            </Box></BrowserRouter>
+            </Container>
+        </ThemeProvider>
 
     );
 }

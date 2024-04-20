@@ -13,6 +13,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { startTransition } from 'react';
+
 
 function Copyright(props) {
     return (
@@ -42,8 +44,9 @@ export default function SignInSide() {
             email: data.get('email'),
             password: data.get('password'),
         });
-        navigate('/student');
-
+        startTransition(() => {
+            navigate('/file');
+        });
     };
 
     return (
@@ -115,15 +118,11 @@ export default function SignInSide() {
                             </Button>
                             <Grid container>
                                 <Grid item xs>
-                                    <Link href="#" variant="body2">
+                                    <Link href="#" variant="body2" >
                                         Forgot password?
                                     </Link>
                                 </Grid>
-                                <Grid item>
-                                    <Link href="#" variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
-                                </Grid>
+
                             </Grid>
                             <Copyright sx={{ mt: 5 }} />
                         </Box>
