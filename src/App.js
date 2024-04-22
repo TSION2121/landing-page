@@ -8,22 +8,9 @@ import About from './pages/About/About';
 import News from './pages/News/News';
 import Login from './pages/Contact/Login';
 import styled from 'styled-components';
-import Logo from './utils/images/logo.svg';
-import Dashboard from "./pages/Student/scenes/dashboard";
-import Task from "./pages/Student/scenes/task";
-import Messages from "./pages/Student/scenes/messages";
-import Notifications from "./pages/Student/scenes/notifications";
-import Reports from "./pages/Student/scenes/report";
-import Calendar from "./pages/Student/scenes/calendar";
-import Accounts from "./pages/Student/scenes/account";
-import Settings from "./pages/Student/scenes/setting";
-import UserPage from "./pages/stakes/src/pages/user";
-import DashboardLayout from "./pages/stakes/src/layouts/dashboard";
-import {IndexPage} from "./pages/stakes/src/routes/sections";
+// import Logo from './utils/images/logo.svg';
+import Logo from './utils/images/logo-trans.png';
 import AdminRoutes from "./AdminRoutes";
-import {HelmetProvider} from "react-helmet-async";
-import ProductsPage from "./pages/stakes/src/pages/products";
-import AppPage from "./pages/stakes/src/pages/app";
 import MainPage from "./pages/Admin/Main";
 import {ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -89,7 +76,7 @@ const App = () => {
                             >
                                 <MenuIcon />
                             </IconButton>
-                            <Box component="img" src={Logo} alt="Logo" sx={{ height: 50, display: { xs: 'none', sm: 'block' } }} />
+                            <Box component="img" src={Logo} alt="Logo" sx={{  height: 50, display: { xs: 'none', sm: 'block' } }} />
                             <Typography variant="h4" component="div" sx={{ flexGrow: 1 , my: 2 , marginLeft:'30px'}}>
                                 IETP
                             </Typography>
@@ -98,6 +85,8 @@ const App = () => {
                                 <Button color="inherit" component={StyledLink} to="/">Home</Button>
                                 <Button color="inherit" component={StyledLink} to="/about">About</Button>
                                 <Button color="inherit" component={StyledLink} to="/news">Notice</Button>
+                                <Button color="inherit" component={StyledLink} to="/analysis">Analysis</Button>
+                                <Button color="inherit" component={StyledLink} to="/file"> Upload Users</Button>
                                 <Button color="inherit" component={StyledLink} to="/login">Login</Button>
 
                             </Box>
@@ -122,14 +111,14 @@ const App = () => {
                             <Route path="/about" element={<About />} />
                             <Route path="/news" element={<News />} />
                             <Route path="/login" element={<Login />} />
-                            <Route path="/student" element={<Dashboard />} />
-                            <Route path="/student/task" element={<Task />} />
-                            <Route path="/student/messages" element={<Messages />} />
-                            <Route path="/student/notifications" element={<Notifications />} />
-                            <Route path="/student/report" element={<Reports />} />
-                            <Route path="/student/calendar" element={<Calendar/>}/>
-                            <Route path="/student/account" element={<Accounts/>}/>
-                            <Route path="/student/setting" element={<Settings/>}/>
+                            {/*<Route path="/student" element={<Dashboard />} />*/}
+                            {/*<Route path="/student/task" element={<Task />} />*/}
+                            {/*<Route path="/student/messages" element={<Messages />} />*/}
+                            {/*<Route path="/student/notifications" element={<Notifications />} />*/}
+                            {/*<Route path="/student/report" element={<Reports />} />*/}
+                            {/*<Route path="/student/calendar" element={<Calendar/>}/>*/}
+                            {/*<Route path="/student/account" element={<Accounts/>}/>*/}
+                            {/*<Route path="/student/setting" element={<Settings/>}/>*/}
                             <Route path="/file" element={<FileUpload />} />
                             <Route path="/analysis" element={<MainPage />} />
                             <Route path='/users' element={<UsersPage />}/>
@@ -137,20 +126,6 @@ const App = () => {
 
                             <Route path="admin/*" element={<AdminRoutes />} /> {/* Nested admin routes */}
 
-                            <Route path="/dashboard" element={<DashboardLayout >
-                                <Suspense>
-                                    <Outlet />
-                                </Suspense>
-                            </DashboardLayout>} />
-                            <Route path="/user" element={
-
-                                <UserPage /> } />
-                            <Route path="/products" element={<ProductsPage />} />
-                            <Route path="new"   element={
-                                <DashboardLayout>
-                                    <Suspense>
-                                        <Outlet /><AppPage/></Suspense>
-                                </DashboardLayout>}/>
 
 
 
