@@ -9,7 +9,7 @@ import {
     TableHead,
     TableRow,
     TablePagination,
-    Container
+    Container, Typography, Box
 } from '@mui/material';
 import * as XLSX from 'xlsx';
 const FileUpload = ({ setData }) => {
@@ -62,7 +62,11 @@ const handleChangeRowsPerPage = (event) => {
     };
 
     return (
-        <Container sx={{ backgroundColor: 'lightblue', padding: '12px'}}>
+        <>
+            <Box bgcolor={"darkblue"}>
+                <Typography color={"white"} variant="h3"> Please Upload an excel file to register your users    </Typography>
+        </Box> <Container sx={{ backgroundColor: 'lightblue', padding: '12px', margin:'20px 0'}}>
+
             <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
             <Button variant="contained">Upload</Button>
             {message && <Alert severity={isFileUploaded ? 'success' : 'error'}>{message}</Alert>}
@@ -97,7 +101,7 @@ const handleChangeRowsPerPage = (event) => {
                     />
                 </TableContainer>
             )}
-        </Container>
+        </Container></>
     );
 };
 
