@@ -17,7 +17,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container"; // Make sure the path to your logo is correct
 import theme from './pages/Admin/theme';
 import UsersPage from "./pages/Admin/UsersPage";
-import FileUpload from "./pages/Admin/FileUpload"; // Import your custom theme
+import FileUpload from "./pages/Admin/FileUpload";
+import FileUploadToApi from "./pages/Admin/FileUploadToApi"; // Import your custom theme
 
 
 
@@ -64,9 +65,9 @@ const App = () => {
 
                 <Box sx={{ display: 'inline' } }>
                     <AppBar position="relative" sx={{ width: { sm: `calc(100% - ${0}px)` }, ml: { sm: `${0}px` } ,
-                        // backgroundColor:'red'
+                        backgroundColor:'lightblue' , color:'black'
                     }}>
-                        <Toolbar>
+                        <Toolbar >
                             <IconButton
                                 color="inherit"
                                 aria-label="open drawer"
@@ -76,7 +77,7 @@ const App = () => {
                             >
                                 <MenuIcon />
                             </IconButton>
-                            <Box component="img" src={Logo} alt="Logo" sx={{  height: 50, display: { xs: 'none', sm: 'block' } }} />
+                            <Box component="img" src={Logo} alt="Logo" sx={{  height: 80, width:'200px', display: { xs: 'none', sm: 'block' } }} />
                             <Typography variant="h4" component="div" sx={{ flexGrow: 1 , my: 2 , marginLeft:'30px'}}>
                                 IETP
                             </Typography>
@@ -120,6 +121,8 @@ const App = () => {
                             {/*<Route path="/student/account" element={<Accounts/>}/>*/}
                             {/*<Route path="/student/setting" element={<Settings/>}/>*/}
                             <Route path="/file" element={<FileUpload />} />
+                            <Route path="/fileapi" element={<FileUploadToApi />} />
+
                             <Route path="/analysis" element={<MainPage />} />
                             <Route path='/users' element={<UsersPage />}/>
 
