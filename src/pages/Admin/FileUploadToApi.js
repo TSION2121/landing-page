@@ -3,7 +3,6 @@ import React, {useEffect, useState} from 'react';
 import * as XLSX from 'xlsx';
 import API_ENDPOINTS from "../Api/API_ENDPOINTS";
 import { Box, Container, Typography, Alert, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, TablePagination, Select, MenuItem, FormControl, InputLabel, TextField } from '@mui/material';
-import Checkbox from "@mui/material/Checkbox";
 
 
 const FileUploadToApi = ({ setData }) => {
@@ -14,8 +13,6 @@ const FileUploadToApi = ({ setData }) => {
     const [isCoordinatorAdded, setIsCoordinatorAdded] = useState(false);
     const [academicYear, setAcademicYear] = useState('');
     const [searchYear, setSearchYear] = useState('');
-
-    const [searchTerm, setSearchTerm] = useState('');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -24,7 +21,7 @@ const FileUploadToApi = ({ setData }) => {
         const currentYear = new Date().getFullYear();
         const currentMonth = new Date().getMonth();
         // If the current month is before September, subtract one year
-        const calculatedAcademicYear = currentMonth < 8 ? currentYear - 1 : currentYear;
+        const calculatedAcademicYear = currentMonth < 8 ? currentYear  : currentYear;
         setAcademicYear(calculatedAcademicYear.toString());
         setSearchYear(calculatedAcademicYear.toString());
     }, []);
@@ -118,95 +115,18 @@ const FileUploadToApi = ({ setData }) => {
         reader.readAsBinaryString(file);
     };
 
-
-    // Filter data based on the search year and user role
-    const filteredData = searchTerm
-        ? excelData.filter((data) => data.name.toLowerCase().includes(searchTerm.toLowerCase()))
-        : excelData;
-
-    // Handle search term change
-    const handleSearchTermChange = (event) => {
-        setSearchTerm(event.target.value);
-    };
-    const handleSearchYearChange = (event) => {
-        // Your logic to handle the change event
-    };
-
-
-    // Render the search and add coordinator section
-    const renderSearchAndAddSection = () => {
-        return (
-            <Container sx={{ backgroundColor: 'lightgray', padding: '12px', margin:'20px 0'}}>
-                <TextField
-                    id  ="search-name"
-                    label="Search by Name"
-                    type="text"
-                    fullWidth
-                    margin="normal"
-                    value={searchTerm}
-                    onChange={handleSearchTermChange}
-                />
-                <TableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell align="right">Add as Coordinator</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {filteredData.map((row, index) => (
-                                <TableRow key={index}>
-                                    <TableCell component="th" scope="row">
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <Checkbox
-                                            // Implement the logic to handle checkbox state
-                                            // onChange={...}
-                                        />
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Container>
-        );
-    };
-
+    // Filter data based on the academic year and user role
+    const filteredData = excelData.filter((data) => {
+        return userRole === 'Advisor' ? data.year === academicYear && data.isActive : data.year === academicYear;
+    });
 
     return (
         <>
-            <Box bgcolor={"darkblue"}>
-                <Typography color={"white"} variant="h3"> Please Upload an Excel file to register your users </Typography>
+            <Box bgcolor={"cadetblue"}>
+                <Typography color={"white"} variant="h4"> Please Upload an Excel file to register your users </Typography>
             </Box>
             <Container sx={{ backgroundColor: 'lightblue', padding: '12px', margin:'20px 0'}}>
-
-                {/* ... User Role Selection */}
-                {userRole === 'Advisor' && !isFileUploaded && (
-                    <>
-                        <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
-                        {message && <Alert severity={'error'}>{message}</Alert>}
-                    </>
-                )}
-                {userRole === 'Advisor' && isFileUploaded && renderSearchAndAddSection()}
-                {/* ... Table display logic for uploaded data */}
-
                 <FormControl fullWidth margin="normal">
-                    <TextField
-                        id="search-year"
-                        label="Search by Academic Year"
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        value={searchYear}
-                        onChange={handleSearchYearChange}
-                    />
-                </FormControl>
-
-            <FormControl fullWidth margin="normal">
                     <InputLabel id="user-role-label">User Role</InputLabel>
                     <Select
                         labelId="user-role-label"
@@ -220,18 +140,18 @@ const FileUploadToApi = ({ setData }) => {
                         <MenuItem value={'Advisor'} disabled={!isCoordinatorAdded}>Advisor</MenuItem>
                     </Select>
                 </FormControl>
-                {/*<FormControl fullWidth margin="normal">*/}
-                {/*    <TextField*/}
-                {/*        id="academic-year"*/}
-                {/*        label="Academic Year"*/}
-                {/*        type="number"*/}
-                {/*        InputLabelProps={{*/}
-                {/*            shrink: true,*/}
-                {/*        }}*/}
-                {/*        value={academicYear}*/}
-                {/*        onChange={handleAcademicYearChange}*/}
-                {/*    />*/}
-                {/*</FormControl>*/}
+                <FormControl fullWidth margin="normal">
+                    <TextField
+                        id="academic-year"
+                        label="Academic Year"
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        value={academicYear}
+                        onChange={handleAcademicYearChange}
+                    />
+                </FormControl>
                 {userRole && (
                     <>
                         <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} disabled={userRole === 'Student' && isFileUploaded} />

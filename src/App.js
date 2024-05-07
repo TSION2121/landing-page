@@ -18,7 +18,9 @@ import Container from "@mui/material/Container"; // Make sure the path to your l
 import theme from './pages/Admin/theme';
 import UsersPage from "./pages/Admin/UsersPage";
 import FileUpload from "./pages/Admin/FileUpload";
-import FileUploadToApi from "./pages/Admin/FileUploadToApi"; // Import your custom theme
+import FileUploadToApi from "./pages/Admin/FileUploadToApi";
+import Dashboard from "./pages/Admin/Dashboard";
+import Dashboard2 from "./pages/Admin/Dashboard2"; // Import your custom theme
 
 
 
@@ -61,7 +63,7 @@ const App = () => {
 
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Container maxWidth="lg">
+            <Container maxWidth="lg" >
 
                 <Box sx={{ display: 'inline' } }>
                     <AppBar position="relative" sx={{ width: { sm: `calc(100% - ${0}px)` }, ml: { sm: `${0}px` } ,
@@ -105,26 +107,20 @@ const App = () => {
                         </Drawer>
                     </Box>
                     <Box component="main" sx={{ p: 3 }}>
-                        <Toolbar />
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/courses" element={<Courses />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/news" element={<News />} />
                             <Route path="/login" element={<Login />} />
-                            {/*<Route path="/student" element={<Dashboard />} />*/}
-                            {/*<Route path="/student/task" element={<Task />} />*/}
-                            {/*<Route path="/student/messages" element={<Messages />} />*/}
-                            {/*<Route path="/student/notifications" element={<Notifications />} />*/}
-                            {/*<Route path="/student/report" element={<Reports />} />*/}
-                            {/*<Route path="/student/calendar" element={<Calendar/>}/>*/}
-                            {/*<Route path="/student/account" element={<Accounts/>}/>*/}
-                            {/*<Route path="/student/setting" element={<Settings/>}/>*/}
                             <Route path="/file" element={<FileUpload />} />
                             <Route path="/fileapi" element={<FileUploadToApi />} />
 
                             <Route path="/analysis" element={<MainPage />} />
                             <Route path='/users' element={<UsersPage />}/>
+                            <Route path="/dashboard/*" element={<Dashboard />} /> {/* Nested admin routes */}
+                            <Route path="/dashboard2/*" element={<Dashboard2 />} /> {/* Nested admin routes */}
+
 
 
                             <Route path="admin/*" element={<AdminRoutes />} /> {/* Nested admin routes */}

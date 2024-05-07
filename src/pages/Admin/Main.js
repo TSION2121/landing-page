@@ -3,11 +3,16 @@ import React, { useState, useEffect } from 'react';
 import ToggleView from './ToggleView';
 import DataTable from './DataTable';
 import DataChart from './DataChart';
-import {Paper, Typography, Box, Select, MenuItem, Button} from '@mui/material';
+import {Paper, Typography, Box, Select, MenuItem, Button, useTheme, useMediaQuery} from '@mui/material';
 import {Route, Routes} from "react-router-dom";
 import UsersPage from "./UsersPage";
+import Grid from "@mui/material/Grid";
+
 
 const MainPage = () => {
+    const theme = useTheme();
+    const isXSmall = useMediaQuery(theme.breakpoints.down('xs'));
+    const isSmall = useMediaQuery(theme.breakpoints.up('sm'));
     const [view, setView] = useState('table');
     const [data, setData] = useState([]); // This should be set to the parsed data
     const [parameter, setParameter] = useState('cgpa'); // State to control the chart parameter
@@ -57,22 +62,29 @@ const MainPage = () => {
 
 
     return (
-        <Paper elevation={3} style={{ padding: '24px', margin: '24px', borderRadius: '15px' }}>
-            <Button href='users'>See Users Details</Button>
-            <Box display="flex" flexDirection="column" alignItems="center">
-                <Typography variant="h4" component="h2" gutterBottom>
-                    Data Analysis
+        <Paper elevation={3} style={{ padding: theme.spacing(2), margin: 'auto', maxWidth: '100%', overflowX: 'hidden' }}>
+            <Box display="flex" flexDirection="column" alignItems="center" justifyContent='center' my={2}  >
+                <Typography variant="h5" component="h1" gutterBottom>
+                    Student Data Analysis
                 </Typography>
-                <Select value={parameter} onChange={(e) => setParameter(e.target.value)}>
-                    <MenuItem value="cgpa">CGPA</MenuItem>
-                    <MenuItem value="department">Department</MenuItem>
-                    <MenuItem value="gender">Gender</MenuItem>
-                </Select>
-                <ToggleView view={view} setView={setView} />
-                {view === 'table' ? <DataTable data={data} parameter={parameter} /> : <DataChart data={data} parameter={parameter} />}
+                <Box display="flex" flexDirection="row" alignItems="center" justifyContent='center' my={2}>
+                    <Button color='primary' variant='contained' href='users' sx={{ marginRight: theme.spacing(1) }}>See Users Details</Button>
+                    <ToggleView view={view} setView={setView} />
+                    <Select value={parameter} onChange={(e) => setParameter(e.target.value)} sx={{ marginLeft: theme.spacing(1) }}>
+                        <MenuItem value="cgpa">CGPA</MenuItem>
+                        <MenuItem value="department">Department</MenuItem>
+                        <MenuItem value="gender">Gender</MenuItem>
+                    </Select>
+                </Box>
             </Box>
+            <Grid container spacing={2} justifyContent="center" >
+                <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+                    {view === 'table' ? <DataTable data={data} parameter={parameter} /> : <DataChart data={data} parameter={parameter} />}
+                </Grid>
+                {/* Add more Grid items here for additional charts or tables */}
+            </Grid>
             <Routes>
-                <Route path='/users' element={<UsersPage />}/>
+                <Route path='/users' element={<UsersPage />} />
             </Routes>
         </Paper>
     );
