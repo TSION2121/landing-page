@@ -20,9 +20,26 @@ import UsersPage from "./pages/Admin/UsersPage";
 import FileUpload from "./pages/Admin/FileUpload";
 import FileUploadToApi from "./pages/Admin/FileUploadToApi";
 import Dashboard from "./pages/Admin/Dashboard";
-import Dashboard2 from "./pages/Admin/Dashboard2"; // Import your custom theme
+import Dashboard2 from "./pages/Admin/Dashboard2";
+import LayoutNews from "./components/LayoutNews";
+import Newss from "./Newss";
+import DrawerAppBar from "./DrawerAppBar";
+import Insertion from "./pages/Admin/Insertion";
+import CoDashboard from "./pages/Coordinator/CoDashboard";
+import deepmerge from 'deepmerge';
+import { createTheme as createMuiTheme } from '@mui/material/styles';
+import { styled as createJoyTheme } from '@mui/joy/styles';
 
+const muiTheme = createMuiTheme({
+    // ...your Material-UI theme settings
+});
 
+// Your Joy UI theme
+const joyTheme = createJoyTheme({
+    // ...your Joy UI theme settings
+});
+
+// Merge the two themes
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -31,6 +48,7 @@ const StyledLink = styled(Link)`
 
 const App = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
+    const theme = deepmerge(muiTheme, joyTheme);
 
 
     const handleDrawerToggle = () => {
@@ -64,66 +82,34 @@ const App = () => {
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Container maxWidth="lg" >
+                <DrawerAppBar />
+                {/*<Box sx={{ display: 'inline' } }>*/}
 
-                <Box sx={{ display: 'inline' } }>
-                    <AppBar position="relative" sx={{ width: { sm: `calc(100% - ${0}px)` }, ml: { sm: `${0}px` } ,
-                        backgroundColor:'lightblue' , color:'black'
-                    }}>
-                        <Toolbar >
-                            <IconButton
-                                color="inherit"
-                                aria-label="open drawer"
-                                edge="start"
-                                onClick={handleDrawerToggle}
-                                sx={{ mr: 2, display: { sm: 'none' } }}
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Box component="img" src={Logo} alt="Logo" sx={{  height: 80, width:'200px', display: { xs: 'none', sm: 'block' } }} />
-                            <Typography variant="h4" component="div" sx={{ flexGrow: 1 , my: 2 , marginLeft:'30px'}}>
-                                IETP
-                            </Typography>
-                            <Box sx={{ display: { xs: 'none', sm: 'block' }, ml: '30px' }}>
+                {/*</Box>*/}
+                <Box component="main" sx={{ p: 10 }}>
+                    <Routes>
+                        <Route path="/newss" element={<Newss />} />
+                        <Route path="/insert" element={<Insertion />} />
+                        <Route path="/coordinator/dashboard" element={<CoDashboard />} />
 
-                                <Button color="inherit" component={StyledLink} to="/">Home</Button>
-                                <Button color="inherit" component={StyledLink} to="/about">About</Button>
-                                <Button color="inherit" component={StyledLink} to="/news">Notice</Button>
-                                <Button color="inherit" component={StyledLink} to="/analysis">Analysis</Button>
-                                <Button color="inherit" component={StyledLink} to="/file"> Upload Users</Button>
-                                <Button color="inherit" component={StyledLink} to="/login">Login</Button>
 
-                            </Box>
-                        </Toolbar>
-                    </AppBar>
-                    <Box component="nav">
-                        <Drawer
-                            variant="temporary"
-                            open={mobileOpen}
-                            onClose={handleDrawerToggle}
-                            ModalProps={{ keepMounted: true }} // Better open performance on mobile.
-                            sx={{ display: { xs: 'block', sm: 'none' }, '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 } }}
-                        >
-                            {drawer}
-                        </Drawer>
-                    </Box>
-                    <Box component="main" sx={{ p: 3 }}>
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/courses" element={<Courses />} />
-                            <Route path="/about" element={<About />} />
-                            <Route path="/news" element={<News />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/file" element={<FileUpload />} />
-                            <Route path="/fileapi" element={<FileUploadToApi />} />
+                        <Route path="/layout-news" element={<LayoutNews />} />
+                        <Route path="/" element={<Home />} />
+                        <Route path="/courses" element={<Courses />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/news" element={<News />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/file" element={<FileUpload />} />
+                        <Route path="/fileapi" element={<FileUploadToApi />} />
 
-                            <Route path="/analysis" element={<MainPage />} />
-                            <Route path='/users' element={<UsersPage />}/>
-                            <Route path="/dashboard/*" element={<Dashboard />} /> {/* Nested admin routes */}
-                            <Route path="/dashboard2/*" element={<Dashboard2 />} /> {/* Nested admin routes */}
+                        <Route path="/analysis" element={<MainPage />} />
+                        <Route path='/users' element={<UsersPage />}/>
+                        <Route path="/dashboard/*" element={<Dashboard />} /> {/* Nested admin routes */}
+                        <Route path="/dashboard2/*" element={<Dashboard2 />} /> {/* Nested admin routes */}
 
 
 
-                            <Route path="admin/*" element={<AdminRoutes />} /> {/* Nested admin routes */}
+                        <Route path="admin/*" element={<AdminRoutes />} /> {/* Nested admin routes */}
 
 
 
@@ -132,10 +118,9 @@ const App = () => {
 
 
 
-                        </Routes>
+                    </Routes>
 
 
-                    </Box>
                 </Box>
 
             </Container>
