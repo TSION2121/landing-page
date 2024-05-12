@@ -12,10 +12,10 @@ import styled from 'styled-components';
 import Logo from './utils/images/logo-trans.png';
 import AdminRoutes from "./AdminRoutes";
 import MainPage from "./pages/Admin/Main";
-import {ThemeProvider} from "@mui/material/styles";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container"; // Make sure the path to your logo is correct
-import theme from './pages/Admin/theme';
+// import theme from './pages/Admin/theme';
 import UsersPage from "./pages/Admin/UsersPage";
 import FileUpload from "./pages/Admin/FileUpload";
 import FileUploadToApi from "./pages/Admin/FileUploadToApi";
@@ -26,29 +26,65 @@ import Newss from "./Newss";
 import DrawerAppBar from "./DrawerAppBar";
 import Insertion from "./pages/Admin/Insertion";
 import CoDashboard from "./pages/Coordinator/CoDashboard";
-import deepmerge from 'deepmerge';
-import { createTheme as createMuiTheme } from '@mui/material/styles';
-import { styled as createJoyTheme } from '@mui/joy/styles';
-
-const muiTheme = createMuiTheme({
-    // ...your Material-UI theme settings
-});
-
-// Your Joy UI theme
-const joyTheme = createJoyTheme({
-    // ...your Joy UI theme settings
-});
+import DynamicForm from "./pages/Admin/FormInsertion";
+// import deepmerge from 'deepmerge';
+// import { createTheme as createMuiTheme } from '@mui/material/styles';
+// import { styled as createJoyTheme } from '@mui/joy/styles';
+//
+// const muiTheme = createMuiTheme({
+//     // ...your Material-UI theme settings
+// });
+//
+// // Your Joy UI theme
+// const joyTheme = createJoyTheme({
+//     // ...your Joy UI theme settings
+// });
 
 // Merge the two themes
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#556cd6',
+        },
+        secondary: {
+            main: '#19857b',
+        },
+        error: {
+            main: '#f44336',
+        },
+        warning: {
+            main: '#ff9800',
+        },
+        info: {
+            main: '#2196f3',
+        },
+        success: {
+            main: '#4caf50',
+        },
+        // Define other colors as needed
+    },
+    // ... other theme configurations
+});
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
 `;
-
+const customTheme = createTheme({
+    palette: {
+        primary: {
+            main: '#556cd6',
+        },
+        secondary: {
+            main: '#19857b',
+        },
+        // ... (other palette colors)
+    },
+    // ... (other theme configurations)
+});
 const App = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
-    const theme = deepmerge(muiTheme, joyTheme);
+    // const theme = deepmerge(muiTheme, joyTheme);
 
 
     const handleDrawerToggle = () => {
@@ -79,7 +115,7 @@ const App = () => {
 
     return (
 
-        <ThemeProvider theme={theme}>
+        <>
             <CssBaseline />
             <Container maxWidth="lg" >
                 <DrawerAppBar />
@@ -89,6 +125,8 @@ const App = () => {
                 <Box component="main" sx={{ p: 10 }}>
                     <Routes>
                         <Route path="/newss" element={<Newss />} />
+                        <Route path="/forminsertion" element={<DynamicForm />} />
+
                         <Route path="/insert" element={<Insertion />} />
                         <Route path="/coordinator/dashboard" element={<CoDashboard />} />
 
@@ -124,7 +162,7 @@ const App = () => {
                 </Box>
 
             </Container>
-        </ThemeProvider>
+        </>
 
     );
 }

@@ -7,12 +7,46 @@ import axios from 'axios';
 
 // Mock data for testing
 const mockGroups = [
-    { name: 'Group 1', advisor: 'Advisor A', year: 2023 },
-    { name: 'Group 2', advisor: 'Advisor B', year: 2023 },
-    { name: 'Group 1', advisor: 'Advisor A', year: 2023 },
-    { name: 'Group 2', advisor: 'Advisor B', year: 2023 },
-    { name: 'Group 1', advisor: 'Advisor A', year: 2024 },
-    { name: 'Group 2', advisor: 'Advisor B', year: 2024 }];
+    { projectTitle:"smart home", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"", status:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 }];
 
 export default function GroupSeating() {
     const [groups, setGroups] = useState([]);
@@ -58,13 +92,15 @@ export default function GroupSeating() {
 
     return (
         <Box sx={{ width: '100%' }}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <LocalizationProvider  dateAdapter={AdapterDateFns}>
                 <DatePicker
+                    sx={{color:'goldenrod',  margin: " 5px 0"}}
                     views={['year']}
                     label="Select Year"
                     value={selectedDate}
                     onChange={handleDateChange}
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={(params) => <TextField                     sx={{color:'goldenrod', bgcolor: '#00ff00', margin: " 15px 0"}}
+                                                                            {...params} />}
                 />
             </LocalizationProvider>
             {loading ? (
@@ -72,10 +108,14 @@ export default function GroupSeating() {
             ) : (
                 <Grid container spacing={2}>
                     {currentGroups.map((group, index) => (
-                        <Grid item xs={12} sm={6} md={4} key={index}>
-                            <Paper elevation={3} sx={{ padding: 2 }}>
+                        <Grid item xs={12} sm={6} md={4} key={index} >
+                            <Paper elevation={3} sx={{ backgroundColor: 'gray', color:'goldenrod',padding: 2}}>
                                 <Typography variant="h6">{group.name}</Typography>
                                 <Typography variant="subtitle1">{group.advisor}</Typography>
+                                {group.projectTitle &&
+                                <Typography variant="subtitle1">{group.projectTitle}</Typography>}
+                                <Typography variant="status">{group.status}</Typography>
+
                             </Paper>
                         </Grid>
                     ))}

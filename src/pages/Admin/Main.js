@@ -62,13 +62,13 @@ const MainPage = () => {
 
 
     return (
-        <Paper elevation={3} style={{ padding: theme.spacing(2), margin: 'auto', maxWidth: '100%', overflowX: 'hidden' }}>
+        <Paper elevation={3} sx={{bgcolor: 'lightyellow',}} style={{ padding: theme.spacing(2), margin: 'auto', maxWidth: '100%', overflowX: 'hidden' }}>
             <Box display="flex" flexDirection="column" alignItems="center" justifyContent='center' my={2}  >
                 <Typography variant="h5" component="h1" gutterBottom>
                     Student Data Analysis
                 </Typography>
-                <Box display="flex" flexDirection="row" alignItems="center" justifyContent='center' my={2}>
-                    <Button color='primary' variant='contained' href='users' sx={{ marginRight: theme.spacing(1) }}>See Users Details</Button>
+                <Box sx={{bgcolor: 'lightgray',}} display="flex" flexDirection="row" alignItems="center" justifyContent='center' my={2}>
+                    <Button sx={{background:'goldenrod',  marginRight: theme.spacing(1)}} variant='contained' href='users' >See Users Details</Button>
                     <ToggleView view={view} setView={setView} />
                     <Select value={parameter} onChange={(e) => setParameter(e.target.value)} sx={{ marginLeft: theme.spacing(1) }}>
                         <MenuItem value="cgpa">CGPA</MenuItem>
@@ -77,9 +77,9 @@ const MainPage = () => {
                     </Select>
                 </Box>
             </Box>
-            <Grid container spacing={2} justifyContent="center" >
+            <Grid  container spacing={2} justifyContent="center" >
                 <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-                    {view === 'table' ? <DataTable data={data} parameter={parameter} /> : <DataChart data={data} parameter={parameter} />}
+                    {view === 'table' ? <DataTable  data={data} parameter={parameter} /> : <DataChart data={data} parameter={parameter} />}
                 </Grid>
                 {/* Add more Grid items here for additional charts or tables */}
             </Grid>

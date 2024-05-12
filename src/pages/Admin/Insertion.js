@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -8,7 +8,13 @@ import Typography from '@mui/material/Typography';
 import ButtonBase from '@mui/material/ButtonBase';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-
+import { useNavigate } from 'react-router-dom';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import axios from "axios";
+import {Pagination, Table, TableHead} from "@mui/material";
+import * as rows from "react-bootstrap/ElementChildren";
 
 const images = [
     {
@@ -22,11 +28,55 @@ const images = [
         width: '30%',
     },
     {
-        url: '/static/images/buttons/camera.jpg',
-        title: 'Upload Excel',
+        url: '/static/images/buttons/burgers.jpg',
+        title: 'Add Coordinators',
         width: '30%',
     },
+
 ];
+
+// Mock data for testing
+const mockGroups = [
+    { projectTitle:"smart home", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
+    { students:"name of student", coordinator:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 }];
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
     position: 'relative',
@@ -143,26 +193,69 @@ const Insertion = () => {
     const [activeButton, setActiveButton] = useState('');
     const [showMenu, setShowMenu] = useState(false);
     const [showForm, setShowForm] = useState(false);
+    const [role, setRole] = useState(''); // State to hold the current role
+    const navigate = useNavigate(); // Hook to navigate
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 5;
+    const [loading, setLoading] = useState(true);
+    const [groups, setGroups] = useState([]);
+
+    useEffect(() => {
+        setLoading(true);
+        const year = selectedDate.getFullYear();
+        // Fetch groups from the API based on the selected year
+        // Replace with your actual API endpoint
+        axios.get(`https://your-api.com/groups?year=${year}`)
+            .then(response => {
+                // If the API call is successful, use the data from the API
+                setGroups(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('There was an error fetching the groups!', error);
+                // Fallback to mock data if API call fails
+                const filteredMockData = mockGroups.filter(group => group.year === year);
+                setGroups(filteredMockData);
+                setLoading(false);
+            });
+    }, [selectedDate]);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+        setPage(1); // Reset to first page when date changes
+    };
+
+    // Filter groups based on the selected year
+    const filteredGroups = groups.filter(group => group.year === selectedDate.getFullYear());
+
+    // Calculate the current groups to display on the page
+    const currentGroups = filteredGroups.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
     // Handlers for menu options
     const handleUpload = () => {
-        // Implement file upload logic here
         console.log('Upload File clicked');
         setShowForm(false); // Hide the form if it's visible
+        navigate('/fileapi', { state: { role: activeButton } }); // Navigate to '/fileapi' with the current role
     };
 
     const handleForm = () => {
-        // Show the form
         setShowForm(true);
+        navigate('/forminsertion', { state: { role: activeButton } }); // Navigate to the dynamic form with the role
+
     };
 
     // Handler for button clicks
     const handleButtonClick = (title) => {
         setActiveButton(title);
+        setRole(title); // Save the current role
         setShowMenu(true); // Show the menu options
         setShowForm(false); // Hide the form initially
     };
-
   return (
       <>
 
@@ -170,7 +263,7 @@ const Insertion = () => {
           }}>
               {/*<DemoPaper square={false}>Add Students</DemoPaper>*/}
               {/*<DemoPaper square>Add Teachers</DemoPaper>*/}
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' , justifyContent:'center'}}>
                   {images.map((image) => (
                       <ImageButton
                           focusRipple
@@ -216,31 +309,80 @@ const Insertion = () => {
           {/*    <MenuOptions onUpload={handleUpload} onForm={handleForm} />*/}
           {/*)}*/}
 
-                 <Grid container spacing={2}>
-      {[lightTheme, darkTheme].map((theme, index) => (
-          <Grid item xs={6} key={index}>
-              <ThemeProvider theme={theme}>
-                  <Box
-                      sx={{
-                          p: 2,
-                          borderRadius: 2,
-                          bgcolor: 'background.default',
-                          display: 'grid',
-                          gridTemplateColumns: { md: '1fr 1fr' },
-                          gap: 2,
-                      }}
-                  >
-                      {[0, 1, 2, 3, 4, 6, 8, 12, 16, 24].map((elevation) => (
-                          <Item key={elevation} elevation={elevation}>
-                              {`elevation=${elevation}`}
-                          </Item>
-                      ))}
-                  </Box>
-              </ThemeProvider>
-          </Grid>
-      ))}
+          <Box sx={{ width: '100%',
+                  alignContent: 'center',
+              }}>
+              <LocalizationProvider  dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                      sx={{color:'goldenrod',  margin: " 5px 0"}}
+                      views={['year']}
+                      label="Select Year"
+                      value={selectedDate}
+                      onChange={handleDateChange}
+                      renderInput={(params) => <TextField                     sx={{color:'goldenrod', bgcolor: '#00ff00', margin: " 15px 0"}}
+                                                                              {...params} />}
+                  />
+              </LocalizationProvider>
+              {loading ? (
+                  <Typography>Loading...</Typography>
+              ) : (
+                  <>
+                          <Table
+                              // borderAxis="bothBetween"
+                              // stripe="odd"
+                              // hoverRow
+                              sx={{
 
-      </Grid>
+                                      bgcolor: 'beige',textAlign:'center'
+
+                              }}
+                          >
+                              <TableHead >
+                              <tr>
+                                  <th style={{ width: 200 }}>Students</th>
+                                  <th style={{ width: 200 }}>Advisors</th>
+                                  <th style={{ width: 200 }}>Coordinators</th>
+
+
+                                  {/*<th*/}
+                                  {/*    aria-label="last"*/}
+                                  {/*    style={{ width: 'var(--Table-lastColumnWidth)' }}*/}
+                                  {/*/>*/}
+                              </tr>
+                              </TableHead>
+                              <tbody>
+                              {currentGroups.map((group, index) => (
+                                  <tr key={group.students}>
+                                      <td>{group.students}</td>
+                                      <td>{group.advisor}</td>
+                                      <td>{group.coordinator}</td>
+
+
+                                      {/*<td>*/}
+                                      {/*    <Box sx={{ display: 'flex', gap: 1 }}>*/}
+                                      {/*        <Button size="sm" variant="plain" color="neutral">*/}
+                                      {/*            Edit*/}
+                                      {/*        </Button>*/}
+                                      {/*        <Button size="sm" variant="soft" color="danger">*/}
+                                      {/*            Delete*/}
+                                      {/*        </Button>*/}
+                                      {/*    </Box>*/}
+                                      {/*</td>*/}
+                                  </tr>
+                              ))}
+                              </tbody>
+                          </Table>
+
+                  </>
+              )}
+              <Pagination
+                  count={Math.ceil(filteredGroups.length / itemsPerPage)}
+                  page={page}
+                  onChange={handleChangePage}
+                  color="primary"
+                  sx={{ marginTop: 2 }}
+              />
+          </Box>
 
 
 

@@ -9,6 +9,7 @@ import GroupsLayout from "../Groups/GroupsLayout";
 import GroupLayoutBox from "../Groups/GroupLayoutBox";
 import TeamSeating from "../Groups/TeamSeating";
 import GroupSeating from "../Groups/GroupSeating";
+import {Typography} from "@mui/material";
 
 const Item = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : 'goldenrod',
@@ -163,7 +164,8 @@ const CoDashboard = () => {
             </Box>
 
             {/*<GroupsLayout />*/}
-            Groups
+            <Typography variant="h5" gutterBottom color='goldenrod' bgcolor='#000000' margin=" 15px 0">
+               List of  Groups</Typography>
             <GroupSeating />
         </>
     );

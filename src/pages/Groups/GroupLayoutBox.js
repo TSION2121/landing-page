@@ -6,8 +6,12 @@ import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
+import {useTheme} from "@mui/material";
+
 
 export default function GroupLayoutBox() {
+    const theme = useTheme();
+
     return (
         <Box
             sx={{

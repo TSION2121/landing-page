@@ -3,6 +3,9 @@ import React, {useEffect, useState} from 'react';
 import * as XLSX from 'xlsx';
 import API_ENDPOINTS from "../Api/API_ENDPOINTS";
 import { Box, Container, Typography, Alert, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, TablePagination, Select, MenuItem, FormControl, InputLabel, TextField } from '@mui/material';
+import { useLocation } from 'react-router-dom';
+import {Chip} from "@mui/joy";
+import Paper from "@mui/material/Paper";
 
 
 const FileUploadToApi = ({ setData }) => {
@@ -15,16 +18,23 @@ const FileUploadToApi = ({ setData }) => {
     const [searchYear, setSearchYear] = useState('');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-
+    const location = useLocation(); // Hook to access the navigation state
+    const { state } = location; // Destructure to get the state object
     // Determine the current academic year based on the current date
     useEffect(() => {
-        const currentYear = new Date().getFullYear();
+        console.log(state); // Check what's inside the state
+
+        if (state && state.role) {
+            setUserRole(state.role);
+        }
+
+    const currentYear = new Date().getFullYear();
         const currentMonth = new Date().getMonth();
         // If the current month is before September, subtract one year
         const calculatedAcademicYear = currentMonth < 8 ? currentYear  : currentYear;
         setAcademicYear(calculatedAcademicYear.toString());
         setSearchYear(calculatedAcademicYear.toString());
-    }, []);
+    }, [state]);
 
     // Pagination handlers
     const handleChangePage = (event, newPage) => {
@@ -122,23 +132,27 @@ const FileUploadToApi = ({ setData }) => {
 
     return (
         <>
-            <Box bgcolor={"cadetblue"}>
-                <Typography color={"white"} variant="h4"> Please Upload an Excel file to register your users </Typography>
+            <Box bgcolor={"goldenrod"}>
+                <Typography color={"black"} variant="h5" sx={{textAlign:'center'}}> Please Upload an Excel file to register your users </Typography>
             </Box>
-            <Container sx={{ backgroundColor: 'lightblue', padding: '12px', margin:'20px 0'}}>
+            <Container sx={{ backgroundColor: 'lightgrey', padding: '12px', margin:'20px 0'}}>
+               <Typography>
+                   {userRole}
+               </Typography>
                 <FormControl fullWidth margin="normal">
                     <InputLabel id="user-role-label">User Role</InputLabel>
-                    <Select
+                    {userRole &&
+                        <Select
                         labelId="user-role-label"
                         id="user-role-select"
                         value={userRole}
                         label="User Role"
                         onChange={handleUserRoleChange}
                     >
-                        <MenuItem value={'Student'}>Student</MenuItem>
-                        <MenuItem value={'Coordinator'}>Coordinator</MenuItem>
-                        <MenuItem value={'Advisor'} disabled={!isCoordinatorAdded}>Advisor</MenuItem>
-                    </Select>
+                        <MenuItem value={'Add Students'}>Student</MenuItem>
+                        <MenuItem value={'Add Coordinators'}>Coordinator</MenuItem>
+                        <MenuItem value={'Add Teachers'} disabled={!isCoordinatorAdded}>Teacher</MenuItem>
+                    </Select>}
                 </FormControl>
                 <FormControl fullWidth margin="normal">
                     <TextField
@@ -152,6 +166,7 @@ const FileUploadToApi = ({ setData }) => {
                         onChange={handleAcademicYearChange}
                     />
                 </FormControl>
+
                 {userRole && (
                     <>
                         <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} disabled={userRole === 'Student' && isFileUploaded} />
