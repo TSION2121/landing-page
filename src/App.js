@@ -27,20 +27,12 @@ import DrawerAppBar from "./DrawerAppBar";
 import Insertion from "./pages/Admin/Insertion";
 import CoDashboard from "./pages/Coordinator/CoDashboard";
 import DynamicForm from "./pages/Admin/FormInsertion";
-// import deepmerge from 'deepmerge';
-// import { createTheme as createMuiTheme } from '@mui/material/styles';
-// import { styled as createJoyTheme } from '@mui/joy/styles';
-//
-// const muiTheme = createMuiTheme({
-//     // ...your Material-UI theme settings
-// });
-//
-// // Your Joy UI theme
-// const joyTheme = createJoyTheme({
-//     // ...your Joy UI theme settings
-// });
+import SendMessage from "./components/SendMessage";
+import MessagePage from "./components/MessagePage";
+import ChatInterface from "./components/SendMessage";
+import CalendarPage from "./components/Calendar/CalendarPage";
+import CalendarView from "./components/Calendar/CalendarView";
 
-// Merge the two themes
 const theme = createTheme({
     palette: {
         primary: {
@@ -124,6 +116,12 @@ const App = () => {
                 {/*</Box>*/}
                 <Box component="main" sx={{ p: 10 }}>
                     <Routes>
+                        <Route path="/sendMessage" element={<ChatInterface />} />
+                        <Route path="/MessagePage" element={<MessagePage />} />
+                        <Route path="/addCalendar" element={<CalendarPage />} />
+                        <Route path="/view" element={<CalendarView />} />
+                        <Route path="/sendMessage/:recipientId" element={<ChatInterface />} />
+                        <Route path="/MessagePage/:messageId" element={<MessagePage />} />
                         <Route path="/newss" element={<Newss />} />
                         <Route path="/forminsertion" element={<DynamicForm />} />
 

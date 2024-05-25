@@ -17,8 +17,9 @@ import Button from '@mui/material/Button';
 import styled from "styled-components";
 import Accordion from '@mui/material/Accordion';
 
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Logo from "./utils/images/logo-trans.png";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -29,6 +30,13 @@ const navItems = ['Home', 'About','Notice', 'Analysis','Data Upload','Data Analy
 function DrawerAppBar(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const navigate = useNavigate();
+
+
+    const handleBack = () => {
+        navigate(-1); // Navigate back to the previous page
+    };
+
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
@@ -99,13 +107,16 @@ function DrawerAppBar(props) {
                         {/*        {item}*/}
                         {/*    </Button>*/}
                         {/*))}*/}
-
+                        <IconButton   onClick={handleBack} sx={{ color: 'black' }}>
+                            <ArrowBackIcon />
+                        </IconButton>
                         <Button color="inherit" component={StyledLink} to="/">Home</Button>
                         <Button color="inherit" component={StyledLink} to="/about">About</Button>
                         <Button color="inherit" component={StyledLink} to="/news">Notice</Button>
                         <Button color="inherit" component={StyledLink} to="/analysis">Analysis</Button>
                         <Button color="inherit" component={StyledLink} to="/file"> Upload Users</Button>
                         <Button color="inherit" component={StyledLink} to="/login">Login</Button>
+
 
                     </Box>
                 </Toolbar>
