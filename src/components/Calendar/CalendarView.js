@@ -64,8 +64,11 @@ export default function CalendarView() {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-
-            <h1>View Calendar Events</h1>
+            <Box bgcolor={"cornflowerblue"}>
+                <Typography color={"white"} variant="h5" sx={{textAlign:'center', margin:"2px"}}>
+                        View Calendar Events
+                </Typography>
+            </Box>
             <Button variant="contained" onClick={reset} size="small">
                 Clear Filters
             </Button> <Box sx={{

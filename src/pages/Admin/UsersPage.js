@@ -1,33 +1,58 @@
 // Example usage in MainPage.js or another parent component
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import UsersDataTable from "./UsersDataTable";
-import {Typography} from "@mui/material";
+import {Container, TablePagination, Typography} from "@mui/material";
+import Box from "@mui/material/Box";
+import axios from "axios";
 // ... (rest of your imports)
 
 const MainPage = () => {
-    const [userData, setUserData] = useState([]); // This should be set to the actual user data
-    const mockData = [
-        { id: 1, name: 'John Doe', gender: 'Male', department: 'Engineering', cgpa: 3.5 },
-        { id: 2, name: 'John Doe', gender: 'Male', department: 'Engineering', cgpa: 3.5 },
-        { id: 3, name: 'John Doe', gender: 'Male', department: 'Engineering', cgpa: 3.5 },
-        { id: 4, name: 'John Doe', gender: 'Male', department: 'Engineering', cgpa: 1.8 },
-        { id: 5, name: 'John Doe', gender: 'Male', department: 'Engineering', cgpa: 3.5 },
-        { id: 6, name: 'Jane Smith', gender: 'Female', department: 'Science', cgpa: 3.8 },
-        { id: 7, name: 'John Doe', gender: 'Female', department: 'Engineering', cgpa: 2.5 },
-        { id: 8, name: 'John Doe', gender: 'Female', department: 'Engineering', cgpa: 1.5 },
-        { id: 9, name: 'John Doe', gender: 'Male', department: 'Engineering', cgpa: 2.5 },
-        { id: 10, name: 'John Doe', gender: 'Female', department: 'Engineering', cgpa: 3.5 },
-        { id: 11, name: 'Jane Smith', gender: 'Female', department: 'Science', cgpa: 1.89 },
-    ];
-    // ... (rest of your component logic)
+
+    const [userData, setUserData] = useState([]);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    useEffect(() => {
+        axios.get('http://localhost:3002/users')
+            .then(response => {
+                setUserData(response.data);
+            })
+            .catch(error => {
+                console.error('There was an error fetching the user data:', error);
+            });
+    }, []); // The empty array ensures this effect runs once on mount
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+    // Calculate the current page data
+    const currentPageData = userData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     return (
-        <div>
+        <Container sx={{height:"300px"}} >
             {/* ... (rest of your JSX) */}
-            <Typography variant='h2'> Users Information</Typography>
-            <UsersDataTable data={mockData} />
-            {/* ... (rest of your JSX) */}
-        </div>
+            <Box bgcolor={"cornflowerblue"}>
+                <Typography color={"white"} variant="h5" sx={{textAlign:'center'}}>
+                    Users Information
+                </Typography>
+            </Box>
+            <UsersDataTable data={currentPageData} />
+            <TablePagination
+                component="div"
+                count={userData.length}
+                page={page}
+                onPageChange={handleChangePage}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+
+        </Container>
     );
 };
 

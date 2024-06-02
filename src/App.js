@@ -32,6 +32,7 @@ import MessagePage from "./components/MessagePage";
 import ChatInterface from "./components/SendMessage";
 import CalendarPage from "./components/Calendar/CalendarPage";
 import CalendarView from "./components/Calendar/CalendarView";
+import Result from "./pages/Coordinator/Result";
 
 const theme = createTheme({
     palette: {
@@ -118,6 +119,8 @@ const App = () => {
                     <Routes>
                         <Route path="/sendMessage" element={<ChatInterface />} />
                         <Route path="/MessagePage" element={<MessagePage />} />
+                        <Route path="/result" element={<Result />} />
+
                         <Route path="/addCalendar" element={<CalendarPage />} />
                         <Route path="/view" element={<CalendarView />} />
                         <Route path="/sendMessage/:recipientId" element={<ChatInterface />} />

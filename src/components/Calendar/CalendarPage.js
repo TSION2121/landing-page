@@ -67,13 +67,16 @@ export default function CalendarPage() {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Box sx={{ border: 1, borderColor: 'grey.300', borderRadius: 2, p: 2, m: 2 }}>
+            <Box bgcolor={"cornflowerblue"}>
+                <Typography color={"white"} variant="h5" sx={{textAlign:'center'}}>
+                    Add Calendar for Roles with Milestones
+                </Typography>
+            </Box>    <Box sx={{ border: 1, borderColor: 'grey.300', borderRadius: 2, p: 2, m: 2 }}>
                 <IconButton onClick={handleBack} sx={{ color: 'white' }}>
                     <ArrowBackIcon />
                 </IconButton>
-                <Typography variant="h5" gutterBottom>
-                    Add Calendar for Roles with Milestones
-                </Typography>
+
+
                 <Box sx={{
                     display: "flex",
                     flexDirection: { xs: "column", sm: "row" }, // Stack on small screens, row on others

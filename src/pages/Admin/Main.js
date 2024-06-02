@@ -62,24 +62,35 @@ const MainPage = () => {
 
 
     return (
-        <Paper elevation={3} sx={{bgcolor: 'lightyellow',}} style={{ padding: theme.spacing(2), margin: 'auto', maxWidth: '100%', overflowX: 'hidden' }}>
-            <Box display="flex" flexDirection="column" alignItems="center" justifyContent='center' my={2}  >
-                <Typography variant="h5" component="h1" gutterBottom>
+        <Paper elevation={3} sx={{ bgcolor: 'transparent', p: theme.spacing(2), m: 'auto' }}>
+            <Box bgcolor={"cornflowerblue"} p={2} mb={2}>
+                <Typography color={"white"} variant={isXSmall ? 'h6' : 'h5'} textAlign='center'>
                     Student Data Analysis
                 </Typography>
-                <Box sx={{bgcolor: 'lightgray',}} display="flex" flexDirection="row" alignItems="center" justifyContent='center' my={2}>
-                    <Button sx={{background:'goldenrod',  marginRight: theme.spacing(1)}} variant='contained' href='users' >See Users Details</Button>
+            </Box>
+            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: 'center', my: 2 }}>
+                <Box sx={{
+                    bgcolor: 'lightblue',
+                    display: "flex",
+                    flexWrap: "wrap",
+                    flexDirection: { xs: "column", sm: "row" },
+                    alignItems: "center",
+                    justifyContent: 'center',
+                    p: 2,
+                    mb: 2
+                }}>
+                    <Button sx={{ bgcolor: 'goldenrod', mr: 1 }} variant='contained' href='users'>See Users Details</Button>
                     <ToggleView view={view} setView={setView} />
-                    <Select value={parameter} onChange={(e) => setParameter(e.target.value)} sx={{ marginLeft: theme.spacing(1) }}>
+                    <Select value={parameter} onChange={(e) => setParameter(e.target.value)} sx={{ ml: 1 }}>
                         <MenuItem value="cgpa">CGPA</MenuItem>
                         <MenuItem value="department">Department</MenuItem>
                         <MenuItem value="gender">Gender</MenuItem>
                     </Select>
                 </Box>
             </Box>
-            <Grid  container spacing={2} justifyContent="center" >
-                <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-                    {view === 'table' ? <DataTable  data={data} parameter={parameter} /> : <DataChart data={data} parameter={parameter} />}
+            <Grid container spacing={2} justifyContent="center">
+                <Grid item xs={12} sm={8} md={6} lg={4}>
+                    {view === 'table' ? <DataTable data={data} parameter={parameter} /> : <DataChart data={data} parameter={parameter} />}
                 </Grid>
                 {/* Add more Grid items here for additional charts or tables */}
             </Grid>

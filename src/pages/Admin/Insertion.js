@@ -13,12 +13,13 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import axios from "axios";
-import {Pagination, Table, TableHead} from "@mui/material";
+import {Pagination, Table, TableCell, TableHead, TableRow} from "@mui/material";
 import * as rows from "react-bootstrap/ElementChildren";
+import BlueThemeTable from "../../components/BlueThemeTable";
 
 const images = [
     {
-        url: '/static/images/buttons/breakfast.jpg',
+        url: '/static/images/products/product_1.jpg',
         title: 'Add Students',
         width: '40%',
     },
@@ -37,46 +38,46 @@ const images = [
 
 // Mock data for testing
 const mockGroups = [
-    { projectTitle:"smart home", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
-    { students:"name of student", coordinator:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 }];
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
+    { projectTitle:"smart home", status:"active",students:"name of student", coordinator:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 }];
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
     position: 'relative',
@@ -259,23 +260,22 @@ const Insertion = () => {
   return (
       <>
 
-          <Stack direction="row" spacing={4}  sx={{    justifyContent:'space-evenly',     p:3    ,             backgroundColor: 'goldenrod',
+          <Stack direction="row" spacing={4}  sx={{    justifyContent:'space-evenly',     p:2    , flexGrow: 1 , overflow: 'hidden',             backgroundColor: 'cornflowerblue',
           }}>
-              {/*<DemoPaper square={false}>Add Students</DemoPaper>*/}
-              {/*<DemoPaper square>Add Teachers</DemoPaper>*/}
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' , justifyContent:'center'}}>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap',  minWidth: 300, width: '100%' , justifyContent:'center'}}>
                   {images.map((image) => (
                       <ImageButton
                           focusRipple
                           key={image.title}
                           style={{
                               width: image.width,
+                              height: "100px",
                           }}
                           onClick={() => handleButtonClick(image.title)}
 
                       >
-                          <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
-                          <ImageBackdrop className="MuiImageBackdrop-root" />
+                          <ImageSrc style={{ backgroundImage: `url(${image.url})` ,  backgroundColor: 'transparent',}} />
+                          <ImageBackdrop sx={{  backgroundColor: 'lavender'}} className="MuiImageBackdrop-root" />
                           <Image>
                               <Typography
                                   component="span"
@@ -285,7 +285,7 @@ const Insertion = () => {
                                       position: 'relative',
                                       p: 4,
                                       pt: 2,
-                                      pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+                                      pb: (theme) => `calc(${theme.spacing(1)} + 6px)`, backgroundColor: 'skyblue'
                                   }}
                               >
                                   {image.title}
@@ -305,9 +305,7 @@ const Insertion = () => {
                   ))}
               </Box>
           </Stack>
-          {/*{showMenu && activeButton === 'Add Students' && (*/}
-          {/*    <MenuOptions onUpload={handleUpload} onForm={handleForm} />*/}
-          {/*)}*/}
+
 
           <Box sx={{ width: '100%',
                   alignContent: 'center',
@@ -319,7 +317,9 @@ const Insertion = () => {
                       label="Select Year"
                       value={selectedDate}
                       onChange={handleDateChange}
-                      renderInput={(params) => <TextField                     sx={{color:'goldenrod', bgcolor: '#00ff00', margin: " 15px 0"}}
+                      renderInput={(params) =>
+                          <TextField
+                              sx={{color:'goldenrod', bgcolor: '#00ff00', margin: " 15px 0"}}
                                                                               {...params} />}
                   />
               </LocalizationProvider>
@@ -328,47 +328,67 @@ const Insertion = () => {
               ) : (
                   <>
                           <Table
-                              // borderAxis="bothBetween"
-                              // stripe="odd"
-                              // hoverRow
+                              borderAxis="bothBetween"
+                              stripe="odd"
+                              hoverRow
+
                               sx={{
 
-                                      bgcolor: 'beige',textAlign:'center'
+                                      bgcolor: 'cornflowerblue',textAlign:'center'
+                                  ,color: "white"
 
                               }}
                           >
                               <TableHead >
-                              <tr>
-                                  <th style={{ width: 200 }}>Students</th>
-                                  <th style={{ width: 200 }}>Advisors</th>
-                                  <th style={{ width: 200 }}>Coordinators</th>
+                              <TableRow
+
+                                  sx={{
+
+                                      bgcolor: 'white'
+                                      ,textAlign:'center'
+                                      ,color: "black",
+                                      fontWeight:"bold",
+                                      border:"2px solid black"
+
+                                  }}
+                              >
+                                  <TableCell sx={{ width: 200 }}>ProjectTitle</TableCell>
+                                  <TableCell sx={{ width: 200 }}>Status</TableCell>
+                                  <TableCell sx={{ width: 200 }}>Students</TableCell>
+                                  <TableCell sx={{ width: 200 }}>Advisors</TableCell>
+                                  <TableCell sx={{ width: 200 }}>Coordinators</TableCell>
+                                  <TableCell sx={{ width: 400 }}>Take Action</TableCell>
+
 
 
                                   {/*<th*/}
                                   {/*    aria-label="last"*/}
                                   {/*    style={{ width: 'var(--Table-lastColumnWidth)' }}*/}
                                   {/*/>*/}
-                              </tr>
+                              </TableRow>
                               </TableHead>
                               <tbody>
                               {currentGroups.map((group, index) => (
-                                  <tr key={group.students}>
+                                  <TableRow key={group.students}>
+                                      <td>{group.projectTitle}</td>
+                                      <td>{group.status}</td>
                                       <td>{group.students}</td>
                                       <td>{group.advisor}</td>
                                       <td>{group.coordinator}</td>
 
 
-                                      {/*<td>*/}
-                                      {/*    <Box sx={{ display: 'flex', gap: 1 }}>*/}
-                                      {/*        <Button size="sm" variant="plain" color="neutral">*/}
-                                      {/*            Edit*/}
-                                      {/*        </Button>*/}
-                                      {/*        <Button size="sm" variant="soft" color="danger">*/}
-                                      {/*            Delete*/}
-                                      {/*        </Button>*/}
-                                      {/*    </Box>*/}
-                                      {/*</td>*/}
-                                  </tr>
+
+                                      <td>
+                                          <Box sx={{ display: 'flex', gap: 1 }}>
+                                              <Button size="sm" variant="plain" color="neuTableRowal">
+                                                  Edit
+                                              </Button>
+                                              <Button size="sm" variant="soft" color="danger">
+                                                  Delete
+                                              </Button>
+                                          </Box>
+                                      </td>
+                                  </TableRow>
                               ))}
                               </tbody>
                           </Table>

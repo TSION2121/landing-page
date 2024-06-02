@@ -4,6 +4,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import {useLocation, useNavigate} from 'react-router-dom';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import Paper from "@mui/material/Paper";
 
 
 const DynamicForm = () => {
@@ -49,43 +50,70 @@ const DynamicForm = () => {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                <Typography>{formData.role} </Typography>
-                <FormControl fullWidth margin="normal">
+            <Box bgcolor={"cornflowerblue"}>
+                <Typography color={"white"} variant="h5" sx={{textAlign:'center'}}>{formData.role}</Typography>
+            </Box>
+            <Paper sx={{mt: 1,
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" }, // Stack on small screens, row on others
+                justifyContent: "space-around",
+                alignContent:"center",
+                // alignItems: "center", // Align items vertically
+                flexWrap: "wrap",
+                gap: 4, // Spacing between items
+                padding:"10px 10px 0 10px"
+
+
+
+            }} component="form" onSubmit={handleSubmit} noValidate >
+
+
+                {/* Common fields */}
+                <TextField name="firstName" label="First Name" value={formData.firstName} onChange={handleChange}  />
+                <TextField name="lastName" label="Last Name" value={formData.lastName} onChange={handleChange}  />
+                <TextField name="email" label="Email" value={formData.email} onChange={handleChange}  />
+                <FormControl  margin="normal">
                     <InputLabel id="role-select-label">Role</InputLabel>
                     {formData.role &&
                         <Select
-                        labelId="role-select-label"
-                        id="role-select"
-                        name="role"
-                        value={formData.role}
-                        label="Role"
-                        onChange={handleChange}
-                    >
+                            labelId="role-select-label"
+                            id="role-select"
+                            name="role"
+                            value={formData.role}
+                            label="Role"
+                            onChange={handleChange}
+                        >
                             <MenuItem value={'Add Students'}>Student</MenuItem>
                             <MenuItem value={'Add Coordinators'}>Coordinator</MenuItem>
                             <MenuItem value={'Add Teachers'} >Teacher</MenuItem>
-                    </Select>}
+                        </Select>}
                 </FormControl>
-
-                {/* Common fields */}
-                <TextField name="firstName" label="First Name" value={formData.firstName} onChange={handleChange} fullWidth margin="normal" />
-                <TextField name="lastName" label="Last Name" value={formData.lastName} onChange={handleChange} fullWidth margin="normal" />
-                <TextField name="email" label="Email" value={formData.email} onChange={handleChange} fullWidth margin="normal" />
-
                 {/* Fields for Students */}
                 {formData.role === 'Add Students' && (
                     <>
-                        <TextField name="studentId" label="Student ID" value={formData.studentId} onChange={handleChange} fullWidth margin="normal" />
-                        <TextField name="fieldOfEngineering" label="Field of Engineering" value={formData.fieldOfEngineering} onChange={handleChange} fullWidth margin="normal" />
-                        <TextField name="cgpa" label="CGPA" value={formData.cgpa} onChange={handleChange} fullWidth margin="normal" />
-                        <FormControl fullWidth margin="normal">
-                            <InputLabel id="gender-label">Gender</InputLabel>
-                            <Select labelId="gender-label" name="gender" value={formData.gender} label="Gender" onChange={handleChange}>
+                        <TextField
+                                                size="small"
+name="studentId" label="Student ID" value={formData.studentId} onChange={handleChange}  />
+                        <TextField
+                                                size="small"
+name="fieldOfEngineering" label="Field of Engineering" value={formData.fieldOfEngineering} onChange={handleChange}  />
+                        <TextField
+                                                size="small"
+name="cgpa" label="CGPA" value={formData.cgpa} onChange={handleChange}  />
+
+                        <FormControl  margin="normal" sx={{width:"200px"}} >
+                            <InputLabel id="gender-select-label">Gender</InputLabel>
+                                <Select
+                                labelId="gender-select-label"
+                                id="gender-select"
+                                name="gender"
+                                value={formData.gender}
+                                label="Gender"
+                                onChange={handleChange}>
                                 <MenuItem value="Male">Male</MenuItem>
                                 <MenuItem value="Female">Female</MenuItem>
-                                <MenuItem value="Other">Other</MenuItem>
                             </Select>
+
                         </FormControl>
                     </>
                 )}
@@ -93,20 +121,28 @@ const DynamicForm = () => {
                 {/* Fields for Teachers and Coordinators */}
                 {['Add Teachers', 'Add Coordinators'].includes(formData.role) && (
                     <>
-                        <TextField name="teacherId" label="Teacher ID" value={formData.teacherId} onChange={handleChange} fullWidth margin="normal" />
+                        <TextField
+                                                size="small"
+name="teacherId" label="Teacher ID" value={formData.teacherId} onChange={handleChange}  />
                         <DatePicker
                             label="Select Date"
                             value={formData.date}
                             onChange={handleDateChange}
-                            renderInput={(params) => <TextField {...params} fullWidth margin="normal" />}
+                            renderInput={(params) => <TextField
+                                                    size="small"
+{...params}  />}
                         />
                     </>
                 )}
 
-                <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                <Button
+                    type="submit"
+                    variant="contained"
+                    fullWidth
+                    sx={{ mt: 3, mb: 2 , width:"20%" }}>
                     Submit
                 </Button>
-            </Box>
+            </Paper>
         </LocalizationProvider>
     );
 };

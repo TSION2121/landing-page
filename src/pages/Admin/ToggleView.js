@@ -9,7 +9,7 @@ const ToggleView = ({ view, setView }) => {
     };
 
     return (
-        <Paper elevation={3} style={{ margin: '16px', padding: '8px' }}>
+        <Paper elevation={3} style={{ margin: '16px', padding: '8px'}}>
             <ToggleButtonGroup
                 value={view}
                 exclusive

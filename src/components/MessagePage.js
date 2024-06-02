@@ -1,41 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Typography, IconButton, TextField, Button, Checkbox } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { Box, Typography, IconButton, TextField, Button, Checkbox, Select, MenuItem, CircularProgress } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import axios from "axios";
 
-// Mock API function to simulate fetching messages
 const fetchMessages = async () => {
-    // Simulated delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return [
-        { id: 1, content: "I love snacks." },
-        { id: 2, content: "I love candy. I love cookies. I love cupcakes." },
-        // ... other messages
-    ];
+    try {
+        const response = await axios.get('http://localhost:3002/messages');
+        return response.data;
+    } catch (error) {
+        console.error("Failed to fetch messages:", error);
+        return [];
+    }
 };
 
 const MessagePage = () => {
     const { messageId } = useParams();
     const [messages, setMessages] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedRole, setSelectedRole] = useState('All');
     const [selectedMessages, setSelectedMessages] = useState([]);
+    const [replyMessage, setReplyMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchMessages().then(setMessages);
+        setIsLoading(true);
+        fetchMessages().then(data => {
+            setMessages(data);
+            setIsLoading(false);
+        });
     }, []);
 
-    const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value);
-    };
-
-    const handleSearch = () => {
-        // Filter messages based on the search term
-        const filteredMessages = messages.filter(message =>
-            message.content.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setMessages(filteredMessages);
+    const handleRoleChange = (event) => {
+        setSelectedRole(event.target.value);
     };
 
     const handleSelectMessage = (id) => {
@@ -46,47 +43,79 @@ const MessagePage = () => {
         );
     };
 
-    const handleReply = (id) => {
-        // Implement reply logic here...
-        const messageToReply = messages.find(message => message.id === id);
-        console.log("Replying to message:", messageToReply);
-        //maybe set the message content to a state and use it to send a reply
+    const handleReplyChange = (event) => {
+        setReplyMessage(event.target.value);
     };
 
+    const handleSendReply = async () => {
+        setIsLoading(true);
+        // Implement reply logic here...
+        const updatedMessages = [...messages];
+        for (const id of selectedMessages) {
+            try {
+                const response = await axios.post('http://localhost:3002/messages', { messageId: id, content: replyMessage });
+                const messageIndex = updatedMessages.findIndex(message => message.id === id);
+                if (messageIndex !== -1) {
+                    updatedMessages[messageIndex].replyMessage = response.data.content;
+                }
+            } catch (error) {
+                console.error(`Failed to send reply to message ${id}:`, error);
+            }
+        }
+        setMessages(updatedMessages);
+        setReplyMessage('');
+        setSelectedMessages([]);
+        setIsLoading(false);
+    };
+
+    if (isLoading) {
+        return <CircularProgress />;
+    }
+
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', backgroundColor: 'lightblue', color: 'white', padding: 2, width: "100%" }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '70vh' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'cornflowerblue', color: 'white', padding: 2 }}>
                 <IconButton onClick={() => navigate(-1)} sx={{ color: 'white' }}>
                     <ArrowBackIcon />
                 </IconButton>
                 <Typography variant="h4" sx={{ color: 'white' }}>
                     {`Message ${messageId}`}
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <TextField
-                        placeholder="Search messages..."
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                        sx={{ marginRight: 1 }}
-                    />
-                    <IconButton onClick={handleSearch} sx={{ color: 'white' }}>
-                        <SearchIcon />
-                    </IconButton>
-                </Box>
+                <Select
+                    value={selectedRole}
+                    onChange={handleRoleChange}
+                    sx={{ marginRight: 1, color: 'white' }}
+                >
+                    <MenuItem value="All">All</MenuItem>
+                    <MenuItem value="Advisors">Advisors</MenuItem>
+                    <MenuItem value="Students">Students</MenuItem>
+                    <MenuItem value="Coordinators">Coordinators</MenuItem>
+                </Select>
             </Box>
-            {messages.map((message) => (
-                <Box key={message.id} sx={{ display: 'flex', alignItems: 'center', marginBottom: 1 }}>
-                    <Checkbox
-                        checked={selectedMessages.includes(message.id)}
-                        onChange={() => handleSelectMessage(message.id)}
-                        sx={{ color: 'white' }}
-                    />
-                    <Typography sx={{ flexGrow: 1 }}>{message.content}</Typography>
-                    <Button onClick={() => handleReply(message.id)} sx={{ color: 'white' }}>
-                        Reply
-                    </Button>
-                </Box>
-            ))}
+            <Box sx={{ flexGrow: 1, overflowY: 'auto', backgroundColor: 'cornflowerblue', color: 'white', padding: 2 }}>
+                {messages.filter(message => message.role === selectedRole || selectedRole === 'All').map((message) => (
+                    <Box key={message.id} sx={{ display: 'flex', alignItems: 'center', marginBottom: 1, backgroundColor: message.sender === 'You' ? 'lightgreen' : 'lightblue' }}>
+                        <Checkbox
+                            checked={selectedMessages.includes(message.id)}
+                            onChange={() => handleSelectMessage(message.id)}
+                            sx={{ color: 'white', padding: '0 8px' }}
+                        />
+                        <Typography sx={{ flexGrow: 1 }}>{`${message.sender}: ${message.content}`}</Typography>
+                        {message.replyMessage && <Typography sx={{ flexGrow: 1, marginLeft: 2 }}>{`Reply: ${message.replyMessage}`}</Typography>}
+                    </Box>
+                ))}
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', backgroundColor: 'cornflowerblue', padding: 2 }}>
+                <TextField
+                    placeholder="Type your reply..."
+                    value={replyMessage}
+                    onChange={handleReplyChange}
+                    sx={{ flexGrow: 1, marginRight: 1 }}
+                />
+                <Button onClick={handleSendReply} sx={{ color: 'white' }}>
+                    Send Reply
+                </Button>
+            </Box>
         </Box>
     );
 };

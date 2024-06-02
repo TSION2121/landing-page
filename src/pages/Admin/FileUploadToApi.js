@@ -132,10 +132,10 @@ const FileUploadToApi = ({ setData }) => {
 
     return (
         <>
-            <Box bgcolor={"goldenrod"}>
-                <Typography color={"black"} variant="h5" sx={{textAlign:'center'}}> Please Upload an Excel file to register your users </Typography>
+            <Box bgcolor={"cornflowerblue"}>
+                <Typography color={"white"} variant="h5" sx={{textAlign:'center'}}> Please Upload an Excel file to register your users </Typography>
             </Box>
-            <Container sx={{ backgroundColor: 'lightgrey', padding: '12px', margin:'20px 0'}}>
+            <Paper sx={{  padding: '12px', margin:'20px 0'}}>
                <Typography>
                    {userRole}
                </Typography>
@@ -209,7 +209,7 @@ const FileUploadToApi = ({ setData }) => {
                         )}
                     </>
                 )}
-            </Container>
+            </Paper>
         </>
     );
 };

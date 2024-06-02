@@ -6,6 +6,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import axios from 'axios';
 import {CheckCircleOutline} from "@mui/icons-material";
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
+import GroupDetailsDialog from "./GroupDetailsDialog";
 
 // Mock data for testing
 const mockGroups = [
@@ -56,6 +57,7 @@ export default function GroupSeating() {
     const [page, setPage] = useState(1);
     const itemsPerPage = 6;
     const [loading, setLoading] = useState(true);
+    const [selectedGroup, setSelectedGroup] = useState(null);
 
     useEffect(() => {
         setLoading(true);
@@ -149,7 +151,7 @@ Loading                </Box>
                                             {group.advisor}
                                         </Typography>
                                     </Box>
-                                    <Button variant="outlined" sx={{ alignSelf: 'flex-end' }}>
+                                    <Button variant="outlined" sx={{ alignSelf: 'flex-end' }} onClick={() => setSelectedGroup(group)}>
                                         View Group
                                     </Button>
                                 </Box>
@@ -157,6 +159,13 @@ Loading                </Box>
                         </Grid>
 
                     ))}
+                    {selectedGroup && (
+                        <GroupDetailsDialog
+                            group={selectedGroup}
+                            open={Boolean(selectedGroup)}
+                            onClose={() => setSelectedGroup(null)}
+                        />
+                    )}
                     <Pagination
                         count={Math.ceil(filteredGroups.length / itemsPerPage)}
                         page={page}

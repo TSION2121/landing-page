@@ -64,8 +64,8 @@ const MessageMenu = [
         children: [
             { id: 'Read-Advisors-only', label: 'Read from Advisors' },
             { id: 'Read-Students-only', label: 'Read from Students' },
-            { id: 'Read-specific-groups', label: 'Read from Group select' },
-            { id: 'Read-specific-coordinator', label: 'Read from Coordinator select' },
+            { id: 'Read-specific-groups', label: 'Read from All' },
+            { id: 'Read-specific-coordinator', label: 'Read from Coordinators' },
             // Add more children as needed
         ],
     },
@@ -159,7 +159,7 @@ const CoDashboard = () => {
         <>
             <Box sx={{ flexGrow: 1 , overflow: 'hidden'}}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                    <Grid xs={6}>
+                    <Grid xs={4}>
                         <Item>
                             <Box sx={{ flexGrow: 1, maxWidth: 400 }}>
                                 {/* Message Menu */}
@@ -207,7 +207,7 @@ const CoDashboard = () => {
 
                         </Item>
                     </Grid>
-                    <Grid xs={6}>
+                    <Grid xs={4}>
                         <Item>
                             <Box sx={{ flexGrow: 1, maxWidth: 400 }}>
                                 {/* Message Menu */}
@@ -239,6 +239,20 @@ const CoDashboard = () => {
 
                         </Item>
                     </Grid>
+                    <Grid xs={4}>
+                        <Item>
+                            <Box sx={{ flexGrow: 1, maxWidth: 400 }}>
+                                {/* Message Menu */}
+                                <Button onClick={(event) => handleClick(event, 'result')}>
+                                    <EventIcon /> Result
+                                </Button>
+
+
+                            </Box>
+
+                        </Item>
+                    </Grid>
+
 
                 </Grid>
             </Box>

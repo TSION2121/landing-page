@@ -1,0 +1,320 @@
+{
+  "recipients": [
+    {
+      "id": 1,
+      "role": "Advisors"
+    },
+    {
+      "id": 2,
+      "role": "Students"
+    },
+    {
+      "id": 3,
+      "role": "Coordinators"
+    },
+    {
+      "id": 4,
+      "role": "All"
+    }
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "content": "I love snacks.",
+      "sender": "Abebe",
+      "role": "Advisors"
+    },
+    {
+      "id": 2,
+      "content": "I love candy. I love cookies. I love cupcakes.",
+      "sender": "Hirut",
+      "role": "Students"
+    },
+    {
+      "id": "3",
+      "content": "hello",
+      "sender": "Beza",
+      "role": "Coordinators"
+    },
+    {
+      "id": "4",
+      "content": "send the results as soon as possible",
+      "sender": "You",
+      "role": "All"
+    },
+    {
+      "id": "00a9",
+      "content": "when is going to release budget",
+      "sender": "You",
+      "role": "Students"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "gender": "Male",
+      "department": "Engineering",
+      "cgpa": 3.5
+    },
+    {
+      "id": 2,
+      "name": "John Doe",
+      "gender": "Male",
+      "department": "Engineering",
+      "cgpa": 3.5
+    },
+    {
+      "id": 3,
+      "name": "John Doe",
+      "gender": "Male",
+      "department": "Engineering",
+      "cgpa": 3.5
+    },
+    {
+      "id": 4,
+      "name": "John Doe",
+      "gender": "Male",
+      "department": "Engineering",
+      "cgpa": 1.8
+    },
+    {
+      "id": 5,
+      "name": "John Doe",
+      "gender": "Male",
+      "department": "Engineering",
+      "cgpa": 3.5
+    },
+    {
+      "id": 6,
+      "name": "Jane Smith",
+      "gender": "Female",
+      "department": "Science",
+      "cgpa": 3.8
+    },
+    {
+      "id": 7,
+      "name": "John Doe",
+      "gender": "Female",
+      "department": "Engineering",
+      "cgpa": 2.5
+    },
+    {
+      "id": 8,
+      "name": "John Doe",
+      "gender": "Female",
+      "department": "Engineering",
+      "cgpa": 1.5
+    },
+    {
+      "id": 9,
+      "name": "John Doe",
+      "gender": "Male",
+      "department": "Engineering",
+      "cgpa": 2.5
+    },
+    {
+      "id": 10,
+      "name": "John Doe",
+      "gender": "Female",
+      "department": "Engineering",
+      "cgpa": 3.5
+    },
+    {
+      "id": 11,
+      "name": "Jane Smith",
+      "gender": "Female",
+      "department": "Science",
+      "cgpa": 1.89
+    }
+  ],
+
+  "Result": [
+    {
+      "id": "1",
+      "Group": "1",
+      "StudentID": "ET50128MB",
+      "Department": "Architecture",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },
+    {
+      "id": "2",
+      "Group": "2",
+      "StudentID": "ET50128MB",
+      "Department": "Chemical",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "3",
+      "Group": "1",
+      "StudentID": "ET50128MB",
+      "Department": "Civil",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "4",
+      "Group": "1",
+      "StudentID": "ET50128MB",
+      "Department": "Electromechanical",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "5",
+      "Group": "1",
+      "StudentID": "ET50128MB",
+      "Department": "Electrical",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "6",
+      "Group": "1",
+      "StudentID": "ET50128MB",
+      "Department": "Environmental",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "7",
+      "Group": "1",
+      "StudentID": "ET50128MB",
+      "Department": "Mechanical",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "8",
+      "Group": "2",
+      "StudentID": "ET50128MB",
+      "Department": "Software",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "9",
+      "Group": "2",
+      "StudentID": "ET50128MB",
+      "Department": "Architecture",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },
+    {
+      "id": "10",
+      "Group": "2",
+      "StudentID": "ET50128MB",
+      "Department": "Chemical",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "11",
+      "Group": "2",
+      "StudentID": "ET50128MB",
+      "Department": "Civil",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "12",
+      "Group": "2",
+      "StudentID": "ET50128MB",
+      "Department": "Electromechanical",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "13",
+      "Group": "2",
+      "StudentID": "ET50128MB",
+      "Department": "Electrical",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "14",
+      "Group": "2",
+      "StudentID": "ET50128MB",
+      "Department": "Environmental",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "15",
+      "Group": "2",
+      "StudentID": "ET50128MB",
+      "Department": "Mechanical",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "16",
+      "Group": "3",
+      "StudentID": "ET50128MB",
+      "Department": "Software",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "17",
+      "Group": "3",
+      "StudentID": "ET50128MB",
+      "Department": "Mechanical",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "18",
+      "Group": "2",
+      "StudentID": "ET50128MB",
+      "Department": "Software",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },{
+      "id": "19",
+      "Group": "3",
+      "StudentID": "ET50128MB",
+      "Department": "Architecture",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    },
+    {
+      "id": "20",
+      "Group": "3",
+      "StudentID": "ET50128MB",
+      "Department": "Chemical",
+      "Total": "89.28",
+      "eP-factor": "1,00",
+      "FinalMark": "89.28",
+      "Grade": "A"
+    }
+  ]
+
+
+}

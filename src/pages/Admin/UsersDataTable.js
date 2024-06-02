@@ -1,10 +1,13 @@
 import React from 'react';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useMediaQuery, useTheme } from '@mui/material';
 
 const UsersDataTable = ({ data }) => {
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
     return (
-        <TableContainer component={Paper} elevation={3} style={{ margin: '16px' }}>
-            <Table>
+        <TableContainer component={Paper} elevation={3} sx={{ mb: 2 }}>
+            <Table size={isSmallScreen ? 'small' : 'medium'}>
                 <TableHead>
                     <TableRow>
                         <TableCell>ID</TableCell>

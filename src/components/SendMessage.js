@@ -3,49 +3,57 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Box, TextField, Button, Select, MenuItem, Typography, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-
-// Mock function to simulate fetching data from an API
-const fetchRecipients = async () => {
-    // This should be replaced with an actual API call
-    return ['Advisors', 'Students','Coordinators' ,'All'];
-};
+import axios from "axios";
+import {Chip} from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 
 const ChatInterface = () => {
     const { recipientId } = useParams();
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
-    const [recipient, setRecipient] = useState(recipientId || 'Default Recipient');
-    const [recipients, setRecipients] = useState([]);
+    const [sender, setSender] = useState('You');
+    const [recipient, setRecipient] = useState(recipientId || 'All');
+    const [recipients, setRecipients] = useState(['Advisors', 'Students', 'Coordinators', 'All']);
+    const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        // Fetch recipients when the component mounts
-        const getRecipients = async () => {
-            const fetchedRecipients = await fetchRecipients();
-            setRecipients(fetchedRecipients);
-            // Set the recipient to the first one from the fetched list or keep the current one
-            setRecipient(recipientId || fetchedRecipients[0]);
+        const fetchMessages = async () => {
+            const response = await axios.get('http://localhost:3002/messages');
+            return response.data;
         };
-        getRecipients();
-    }, [recipientId]);
+
+        const getMessages = async () => {
+            const fetchedMessages = await fetchMessages();
+            setMessages(fetchedMessages.filter(message => message.role === recipient || recipient === 'All'));
+        };
+        getMessages();
+    }, [recipient]);
+
+    const sendMessage = async (message) => {
+        const response = await axios.post('http://localhost:3002/messages', message);
+        return response.data;
+    };
+
+    const handleSendClick = async () => {
+        const newMessage = { content: message, sender: sender, role: recipient };
+        const sentMessage = await sendMessage(newMessage);
+        setMessages([...messages, sentMessage]);
+        console.log(`Message sent to ${recipient}: ${message}`);
+        setMessage('');
+    };
 
     const handleInputChange = (event) => {
         setMessage(event.target.value);
     };
 
-    const handleRecipientChange = (event) => {
-        setRecipient(event.target.value);
-    };
-
-    const handleSendClick = () => {
-        console.log(`Message sent to ${recipient}: ${message}`);
-        setMessage('');
-    };
-
     const handleAddRecipient = () => {
-        // Logic to add a new recipient
         const newRecipient = `New Recipient ${recipients.length + 1}`;
         setRecipients([...recipients, newRecipient]);
         setRecipient(newRecipient);
+    };
+
+    const handleRecipientChange = (event) => {
+        setRecipient(event.target.value);
     };
 
     return (
@@ -53,8 +61,8 @@ const ChatInterface = () => {
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                height: '80vh',
-                backgroundColor: 'lightblue',
+                height: '70vh',
+                backgroundColor: 'cornflowerblue',
                 color: 'white',
                 padding: 2,
             }}
@@ -73,21 +81,32 @@ const ChatInterface = () => {
                 <Typography variant="h4" sx={{ color: 'black' }}>
                     {recipient}
                 </Typography>
-                <IconButton onClick={handleAddRecipient} sx={{ color: 'white' }}>
-                    <GroupAddIcon />
-                </IconButton>
+                {/*<IconButton onClick={handleAddRecipient} sx={{ color: 'white' }}>*/}
+                {/*    <GroupAddIcon />*/}
+                {/*</IconButton>*/}
             </Box>
             <Box
                 sx={{
                     flexGrow: 1,
                     overflowY: 'auto',
                     marginBottom: 2,
-                    backgroundColor: '#1A2027',
+                    backgroundColor: 'white',
                     borderRadius: '4px',
                     padding: 2,
                 }}
             >
-                {/* Messages will be displayed here */}
+
+                {messages.map((message, index) => (
+                    <Box key={index} sx={{ display: 'flex', justifyContent: message.sender === sender ? 'flex-end' : 'flex-start', marginBottom: 1 }}>
+                        <Chip
+                            avatar={<Avatar>{message.sender ? message.sender.charAt(0) : ''}</Avatar>}
+                            label={`${message.sender} to ${message.role}: ${message.content}`}
+                            color={message.sender === sender ? 'primary' : 'default'}
+                        />
+                    </Box>
+                ))}
+
+
             </Box>
             <Box
                 component="form"

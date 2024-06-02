@@ -113,8 +113,6 @@ function DrawerAppBar(props) {
                         <Button color="inherit" component={StyledLink} to="/">Home</Button>
                         <Button color="inherit" component={StyledLink} to="/about">About</Button>
                         <Button color="inherit" component={StyledLink} to="/news">Notice</Button>
-                        <Button color="inherit" component={StyledLink} to="/analysis">Analysis</Button>
-                        <Button color="inherit" component={StyledLink} to="/file"> Upload Users</Button>
                         <Button color="inherit" component={StyledLink} to="/login">Login</Button>
 
 
