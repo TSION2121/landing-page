@@ -143,21 +143,6 @@ const ImageMarked = styled('span')(({ theme }) => ({
     transition: theme.transitions.create('opacity'),
 }));
 
-const DemoPaper = styled(Paper)(({ theme }) => ({
-    width: 120,
-    height: 120,
-    padding: theme.spacing(2),
-    ...theme.typography.body2,
-    textAlign: 'center',
-}));
-
-const Item = styled(Paper)(({ theme }) => ({
-    ...theme.typography.body2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    height: 60,
-    lineHeight: '60px',
-}));
 
 const darkTheme = createTheme({ palette: { mode: 'dark' } });
 const lightTheme = createTheme({ palette: { mode: 'light' } });
@@ -346,6 +331,7 @@ const Insertion = () => {
 
                                       bgcolor: 'white'
                                       ,textAlign:'center'
+                                      ,alignItems:"center"
                                       ,color: "black",
                                       fontWeight:"bold",
                                       border:"2px solid black"
@@ -356,7 +342,7 @@ const Insertion = () => {
                                   <TableCell sx={{ width: 200 }}>Status</TableCell>
                                   <TableCell sx={{ width: 200 }}>Students</TableCell>
                                   <TableCell sx={{ width: 200 }}>Advisors</TableCell>
-                                  <TableCell sx={{ width: 200 }}>Coordinators</TableCell>
+                                  {/*<TableCell sx={{ width: 200 }}>Coordinators</TableCell>*/}
                                   <TableCell sx={{ width: 400 }}>Take Action</TableCell>
 
 
@@ -374,7 +360,7 @@ const Insertion = () => {
                                       <td>{group.status}</td>
                                       <td>{group.students}</td>
                                       <td>{group.advisor}</td>
-                                      <td>{group.coordinator}</td>
+                                      {/*<td>{group.coordinator}</td>*/}
 
 
 

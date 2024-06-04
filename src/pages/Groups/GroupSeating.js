@@ -8,49 +8,6 @@ import {CheckCircleOutline} from "@mui/icons-material";
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import GroupDetailsDialog from "./GroupDetailsDialog";
 
-// Mock data for testing
-const mockGroups = [
-    { projectTitle:"smart home", status:"complete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
-    { projectTitle:"Smart Utilization of paver blocks ", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
-    { projectTitle:"", status:"complete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
-    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
-    { projectTitle:"", status:"complete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
-    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
-    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
-    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
-    { projectTitle:"", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
-    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
-    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
-    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
-    { projectTitle:"", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2023 },
-    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2023 },
-    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2023 },
-    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2023 },
-    { projectTitle:"", status:"incomplete", name: 'Group 1', advisor: 'Advisor A', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 2', advisor: 'Advisor B', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 3', advisor: 'Advisor A', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 4', advisor: 'Advisor B', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 5', advisor: 'Advisor A', year: 2024 },
-    { projectTitle:"", status:"incomplete", name: 'Group 6', advisor: 'Advisor B', year: 2024 }];
-
 export default function GroupSeating() {
     const [groups, setGroups] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -63,19 +20,14 @@ export default function GroupSeating() {
         setLoading(true);
         const year = selectedDate.getFullYear();
         // Fetch groups from the API based on the selected year
-        // Replace with your actual API endpoint
-        axios.get(`https://localhost:8080/groups?year=${year}`)
+        axios.get(`http://localhost:3002/mockGroups?year=${year}`)
             .then(response => {
                 // If the API call is successful, use the data from the API
                 setGroups(response.data);
                 setLoading(false);
             })
-            .
-            catch(error => {
+            .catch(error => {
                 console.error('There was an error fetching the groups!', error);
-                // Fallback to mock data if API call fails
-                const filteredMockData = mockGroups.filter(group => group.year === year);
-                setGroups(filteredMockData);
                 setLoading(false);
             });
     }, [selectedDate]);
@@ -104,27 +56,24 @@ export default function GroupSeating() {
                     value={selectedDate}
                     onChange={handleDateChange}
                     sx={{
-                        width: { xs: '100%', sm: 'auto' }, // Full width on extra small screens, auto on others
-
-
+                        width: { xs: '100%', sm: 'auto' },
                         '& .MuiSvgIcon-root': {
-                            color: 'darkblue', // Optional: changes the icon color to dark blue for contrast
+                            color: 'darkblue',
                         }
                     }}
-
                     renderInput={(params) => (
                         <TextField
                             {...params}
-                            size="small" // Makes the TextField smaller
-
+                            size="small"
                         />
                     )}
                 />
-                <Box sx={{ my: 1 }}> {/* New line with margin for spacing */}</Box>
+                <Box sx={{ my: 1 }}></Box>
             </LocalizationProvider>
             {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%',  }}>
-Loading                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                    Loading
+                </Box>
             ) : currentGroups.length > 0 ? (
                 <Grid container spacing={2} sx={{ '@media (max-width:600px)': { spacing: 1 }, height: '0vh' }}>
                     {currentGroups.map((group, index) => (
@@ -157,7 +106,6 @@ Loading                </Box>
                                 </Box>
                             </Paper>
                         </Grid>
-
                     ))}
                     {selectedGroup && (
                         <GroupDetailsDialog
@@ -179,7 +127,6 @@ Loading                </Box>
                     No data available.
                 </Typography>
             )}
-
         </Box>
     );
 }

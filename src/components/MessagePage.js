@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Typography, IconButton, TextField, Button, Checkbox, Select, MenuItem, CircularProgress } from '@mui/material';
+import {
+    Box,
+    Typography,
+    IconButton,
+    TextField,
+    Button,
+    Checkbox,
+    Select,
+    MenuItem,
+    CircularProgress,
+    Chip
+} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import axios from "axios";
+import Avatar from "@mui/material/Avatar";
 
 const fetchMessages = async () => {
     try {
@@ -94,13 +106,19 @@ const MessagePage = () => {
             </Box>
             <Box sx={{ flexGrow: 1, overflowY: 'auto', backgroundColor: 'cornflowerblue', color: 'white', padding: 2 }}>
                 {messages.filter(message => message.role === selectedRole || selectedRole === 'All').map((message) => (
-                    <Box key={message.id} sx={{ display: 'flex', alignItems: 'center', marginBottom: 1, backgroundColor: message.sender === 'You' ? 'lightgreen' : 'lightblue' }}>
+                    <Box key={message.id} sx={{ display: 'flex',justifyContent: message.sender ==='You' ?'flex-end'  : 'flex-start',
+                        marginBottom: 1,  }}>
                         <Checkbox
                             checked={selectedMessages.includes(message.id)}
                             onChange={() => handleSelectMessage(message.id)}
                             sx={{ color: 'white', padding: '0 8px' }}
                         />
-                        <Typography sx={{ flexGrow: 1 }}>{`${message.sender}: ${message.content}`}</Typography>
+                        <Chip
+                            avatar={<Avatar>{message.sender ? message.sender.charAt(0) : ''}</Avatar>}
+                            label={`${message.sender}: ${message.content}`}
+                            color={message.sender === "You" ? 'primary' : 'default'}
+                        />
+                        {/*<Typography sx={{ flexGrow: 1 }}>{`${message.sender}: ${message.content}`}</Typography>*/}
                         {message.replyMessage && <Typography sx={{ flexGrow: 1, marginLeft: 2 }}>{`Reply: ${message.replyMessage}`}</Typography>}
                     </Box>
                 ))}

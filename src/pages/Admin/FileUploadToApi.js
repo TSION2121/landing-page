@@ -1,17 +1,15 @@
-// FileUploadToApiToApi.js
 import React, {useEffect, useState} from 'react';
 import * as XLSX from 'xlsx';
 import API_ENDPOINTS from "../Api/API_ENDPOINTS";
 import { Box, Container, Typography, Alert, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, TablePagination, Select, MenuItem, FormControl, InputLabel, TextField } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import {Chip} from "@mui/joy";
 import Paper from "@mui/material/Paper";
-
 
 const FileUploadToApi = ({ setData }) => {
     const [message, setMessage] = useState('Please upload Excel files of the students, advisors, or coordinators.');
     const [isFileUploaded, setIsFileUploaded] = useState(false);
     const [excelData, setExcelData] = useState([]);
+    const [selectedFile, setSelectedFile] = useState(null); // New state for the selected file
     const [userRole, setUserRole] = useState('');
     const [isCoordinatorAdded, setIsCoordinatorAdded] = useState(false);
     const [academicYear, setAcademicYear] = useState('');
@@ -20,6 +18,7 @@ const FileUploadToApi = ({ setData }) => {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const location = useLocation(); // Hook to access the navigation state
     const { state } = location; // Destructure to get the state object
+
     // Determine the current academic year based on the current date
     useEffect(() => {
         console.log(state); // Check what's inside the state
@@ -28,7 +27,7 @@ const FileUploadToApi = ({ setData }) => {
             setUserRole(state.role);
         }
 
-    const currentYear = new Date().getFullYear();
+        const currentYear = new Date().getFullYear();
         const currentMonth = new Date().getMonth();
         // If the current month is before September, subtract one year
         const calculatedAcademicYear = currentMonth < 8 ? currentYear  : currentYear;
@@ -63,30 +62,34 @@ const FileUploadToApi = ({ setData }) => {
     };
 
     // Function to handle file upload and API call
-    const handleFileUpload = async (file) => {
-        setMessage('Uploading file...');
-        try {
-            const formData = new FormData();
-            formData.append('file', file);
+    const handleFileUpload = async () => {
+        if (selectedFile) {
+            setMessage('Uploading file...');
+            try {
+                const formData = new FormData();
+                formData.append('file', selectedFile);
 
-            const response = await fetch(API_ENDPOINTS.UPLOAD_FILE, {
-                method: 'POST',
-                body: formData,
-                // Add headers if needed, for example, authorization headers
-            });
+                const response = await fetch(API_ENDPOINTS.UPLOAD_FILE, {
+                    method: 'POST',
+                    body: formData,
+                    // Add headers if needed, for example, authorization headers
+                });
 
-            if (response.ok) {
-                const result = await response.json();
-                setMessage('File uploaded and data processed successfully.');
-                setIsFileUploaded(true);
-                // Assuming the response contains the processed data
-                setExcelData(result.data);
-                setData(result.data); // Update parent component's state if needed
-            } else {
-                setMessage('Failed to upload and process the file.');
+                if (response.ok) {
+                    const result = await response.json();
+                    setMessage('File uploaded and data processed successfully.');
+                    setIsFileUploaded(true);
+                    // Assuming the response contains the processed data
+                    setExcelData(result.data);
+                    setData(result.data); // Update parent component's state if needed
+                } else {
+                    setMessage('Failed to upload and process the file.');
+                }
+            } catch (error) {
+                setMessage(`Error: ${error.message}`);
             }
-        } catch (error) {
-            setMessage(`Error: ${error.message}`);
+        } else {
+            setMessage('No file selected.');
         }
     };
 
@@ -113,8 +116,8 @@ const FileUploadToApi = ({ setData }) => {
                 const data = XLSX.utils.sheet_to_json(sheet);
                 // Set local state with the Excel data
                 setExcelData(data);
-                // Call the function to handle file upload and API call
-                handleFileUpload(file);
+                // Store the file in the state
+                setSelectedFile(file);
             } catch (error) {
                 setMessage('Error reading the file.');
             }
@@ -135,24 +138,26 @@ const FileUploadToApi = ({ setData }) => {
             <Box bgcolor={"cornflowerblue"}>
                 <Typography color={"white"} variant="h5" sx={{textAlign:'center'}}> Please Upload an Excel file to register your users </Typography>
             </Box>
-            <Paper sx={{  padding: '12px', margin:'20px 0'}}>
-               <Typography>
-                   {userRole}
-               </Typography>
+            <Paper sx={{
+                padding: '12px',
+                margin:'20px 0'}}>
+                <Typography>
+                    {userRole}
+                </Typography>
                 <FormControl fullWidth margin="normal">
                     <InputLabel id="user-role-label">User Role</InputLabel>
                     {userRole &&
                         <Select
-                        labelId="user-role-label"
-                        id="user-role-select"
-                        value={userRole}
-                        label="User Role"
-                        onChange={handleUserRoleChange}
-                    >
-                        <MenuItem value={'Add Students'}>Student</MenuItem>
-                        <MenuItem value={'Add Coordinators'}>Coordinator</MenuItem>
-                        <MenuItem value={'Add Teachers'} disabled={!isCoordinatorAdded}>Teacher</MenuItem>
-                    </Select>}
+                            labelId="user-role-label"
+                            id="user-role-select"
+                            value={userRole}
+                            label="User Role"
+                            onChange={handleUserRoleChange}
+                        >
+                            <MenuItem value={'Add Students'}>Student</MenuItem>
+                            <MenuItem value={'Add Coordinators'}>Coordinator</MenuItem>
+                            <MenuItem value={'Add Teachers'} disabled={!isCoordinatorAdded}>Teacher</MenuItem>
+                        </Select>}
                 </FormControl>
                 <FormControl fullWidth margin="normal">
                     <TextField
@@ -170,6 +175,7 @@ const FileUploadToApi = ({ setData }) => {
                 {userRole && (
                     <>
                         <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} disabled={userRole === 'Student' && isFileUploaded} />
+                        <button onClick={handleFileUpload}>Upload</button> {/* New upload button */}
                         {userRole === 'Advisor' && isFileUploaded && (
                             // Add the actual JSX elements for additional options here
                             <div>Additional options for Advisor</div>

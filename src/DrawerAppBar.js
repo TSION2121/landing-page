@@ -25,7 +25,17 @@ const StyledLink = styled(Link)`
   color: inherit;
 `;
 const drawerWidth = 240;
-const navItems = ['Home', 'About','Notice', 'Analysis','Data Upload','Data Analysis'];
+const navItems =[
+    {
+    id: 1 , name:'Home',url:"/"
+    },
+
+    { id: 2 ,name:'About',url:"/about"},
+{
+    id: 3 ,name:'Notice',url:"/news"},
+    {
+        id: 4 ,name:'Login',url:"/login"}
+    ];
 
 function DrawerAppBar(props) {
     const { window } = props;
@@ -49,9 +59,13 @@ function DrawerAppBar(props) {
             <Divider />
             <List>
                 {navItems.map((item) => (
-                    <ListItem key={item} disablePadding>
+                    <ListItem key={item.id} disablePadding>
                         <ListItemButton sx={{ textAlign: 'center' }}>
-                            <ListItemText primary={item} />
+                            <Link color="inherit" component={StyledLink} to={item.url}>
+                                <ListItemText primary={item.name}  />
+
+                            </Link>
+
                         </ListItemButton>
 
                     </ListItem>

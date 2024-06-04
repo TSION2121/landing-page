@@ -132,7 +132,9 @@ const CoDashboard = () => {
     const handleGroupSelect = (group) => {
         navigate(`/sendMessage/${group}`);
     };
-
+    const handleResultClick = () => {
+        navigate('/result');
+    };
 
 
 
@@ -243,7 +245,7 @@ const CoDashboard = () => {
                         <Item>
                             <Box sx={{ flexGrow: 1, maxWidth: 400 }}>
                                 {/* Message Menu */}
-                                <Button onClick={(event) => handleClick(event, 'result')}>
+                                <Button onClick={handleResultClick}>
                                     <EventIcon /> Result
                                 </Button>
 
