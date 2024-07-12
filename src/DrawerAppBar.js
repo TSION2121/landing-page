@@ -20,24 +20,51 @@ import Accordion from '@mui/material/Accordion';
 import {Link, useNavigate} from "react-router-dom";
 import Logo from "./utils/images/logo-trans.png";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {useContext, useEffect, useState} from "react";
+import {AuthContext} from "./Context/AuthContext";
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
 `;
 const drawerWidth = 240;
-const navItems =[
-    {
-    id: 1 , name:'Home',url:"/"
-    },
-
-    { id: 2 ,name:'About',url:"/about"},
-{
-    id: 3 ,name:'Notice',url:"/news"},
-    {
-        id: 4 ,name:'Login',url:"/login"}
-    ];
+// const navItems =[
+//     {
+//     id: 1 , name:'Home',url:"/"
+//     },
+//
+//     { id: 2 ,name:'About',url:"/about"},
+// {
+//     id: 3 ,name:'Notice',url:"/news"},
+//     {
+//         id: 4 ,name:'Login',url:"/login"}
+//     ];
 
 function DrawerAppBar(props) {
+
+    const { isAuthenticated, logout, userRole } = useContext(AuthContext);
+    const [navItems, setNavItems] = useState([]);
+    const [loggedOut, setLoggedOut] = useState(false); // Add this line
+
+
+    useEffect(() => {
+        let items;
+        if (isAuthenticated) {
+            items = [
+                { id: 1, name: 'Home', url: `/${userRole}` },
+                { id: 2, name: 'About', url: '/about' },
+                { id: 3, name: 'Notice', url: '/news' },
+                { id: 4, name: 'Logout', url: '/login', onClick: () => {logout(); setLoggedOut(true);} }
+            ];
+        } else {
+            items = [
+                { id: 1, name: 'Home', url: '/' },
+                { id: 2, name: 'About', url: '/about' },
+                { id: 3, name: 'Notice', url: '/news' },
+                { id: 4, name: 'Login', url: '/login' }
+            ];
+        }
+        setNavItems(items);
+    }, [isAuthenticated, logout, userRole, loggedOut]);
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const navigate = useNavigate();
@@ -54,32 +81,35 @@ function DrawerAppBar(props) {
 
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-         <Box sx={{display:'flex' , flexDirection:'row' , flexGrow: 1}}>   <img src={Logo} alt="Logo" style={{  height: 60,  display: { xs: 'none', sm: 'block' } }} />
-          </Box>
+            <Box sx={{display:'flex' , flexDirection:'row' , flexGrow: 1}}>
+                <img src={Logo} alt="Logo" style={{  height: 60,  display: { xs: 'none', sm: 'block' } }} />
+            </Box>
             <Divider />
             <List>
                 {navItems.map((item) => (
                     <ListItem key={item.id} disablePadding>
-                        <ListItemButton sx={{ textAlign: 'center' }}>
+                        <ListItemButton sx={{ textAlign: 'center' }} onClick={item.onClick}>
                             <Link color="inherit" component={StyledLink} to={item.url}>
                                 <ListItemText primary={item.name}  />
-
                             </Link>
-
                         </ListItemButton>
-
                     </ListItem>
                 ))}
-            {/*    <div>*/}
-
-
-            {/*    <Accordion color="inherit" component={StyledLink} to="/">Home</Accordion>*/}
-            {/*    <Accordion color="inherit" component={StyledLink} to="/about">About</Accordion>*/}
-            {/*    <Accordion color="inherit" component={StyledLink} to="/news">Notice</Accordion>*/}
-            {/*    <Accordion color="inherit" component={StyledLink} to="/analysis">Analysis</Accordion>*/}
-            {/*    <Accordion color="inherit" component={StyledLink} to="/file"> Upload Users</Accordion>*/}
-            {/*    <Accordion color="inherit" component={StyledLink} to="/login">Login</Accordion>*/}
-            {/*</div>  */}
+                {isAuthenticated ? (
+                    <ListItem disablePadding>
+                        <ListItemButton sx={{ textAlign: 'center' }} onClick={logout}>
+                            <ListItemText primary="Logout" />
+                        </ListItemButton>
+                    </ListItem>
+                ) : (
+                    <ListItem disablePadding>
+                        <ListItemButton sx={{ textAlign: 'center' }}>
+                            <Link color="inherit" component={StyledLink} to="/login">
+                                <ListItemText primary="Login" />
+                            </Link>
+                        </ListItemButton>
+                    </ListItem>
+                )}
             </List>
 
         </Box>
@@ -124,11 +154,11 @@ function DrawerAppBar(props) {
                         <IconButton   onClick={handleBack} sx={{ color: 'black' }}>
                             <ArrowBackIcon />
                         </IconButton>
-                        <Button color="inherit" component={StyledLink} to="/">Home</Button>
-                        <Button color="inherit" component={StyledLink} to="/about">About</Button>
-                        <Button color="inherit" component={StyledLink} to="/news">Notice</Button>
-                        <Button color="inherit" component={StyledLink} to="/login">Login</Button>
-
+                        {navItems.map((item) => (
+                            <Button key={item.id} color="inherit" component={StyledLink} to={item.url} onClick={item.onClick}>
+                                {item.name}
+                            </Button>
+                        ))}
 
                     </Box>
                 </Toolbar>

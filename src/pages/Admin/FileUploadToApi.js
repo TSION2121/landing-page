@@ -32,7 +32,7 @@ const FileUploadToApi = ({ setData }) => {
         // If the current month is before September, subtract one year
         const calculatedAcademicYear = currentMonth < 8 ? currentYear  : currentYear;
         setAcademicYear(calculatedAcademicYear.toString());
-        setSearchYear(calculatedAcademicYear.toString());
+        setSearchYear(calculatedAcademicYear);
     }, [state]);
 
     // Pagination handlers
@@ -68,8 +68,25 @@ const FileUploadToApi = ({ setData }) => {
             try {
                 const formData = new FormData();
                 formData.append('file', selectedFile);
+                formData.append('academicYearId', academicYear);
 
-                const response = await fetch(API_ENDPOINTS.UPLOAD_FILE, {
+                console.log(academicYear);
+                let uploadUrl;
+                switch (userRole) {
+                    case 'Add Students':
+                        uploadUrl = API_ENDPOINTS.UPLOAD_STUDENTS;
+                        break;
+                    case 'Add Teachers':
+                        uploadUrl = API_ENDPOINTS.UPLOAD_TEACHERS;
+                        break;
+                    case 'Add Coordinators':
+                        uploadUrl = API_ENDPOINTS.UPLOAD_COORDINATORS;
+                        break;
+                    default:
+                        throw new Error('Invalid user role');
+                }
+
+                const response = await fetch(uploadUrl, {
                     method: 'POST',
                     body: formData,
                     // Add headers if needed, for example, authorization headers
@@ -82,6 +99,8 @@ const FileUploadToApi = ({ setData }) => {
                     // Assuming the response contains the processed data
                     setExcelData(result.data);
                     setData(result.data); // Update parent component's state if needed
+                    console.log(academicYear);
+
                 } else {
                     setMessage('Failed to upload and process the file.');
                 }
@@ -110,12 +129,13 @@ const FileUploadToApi = ({ setData }) => {
         const reader = new FileReader();
         reader.onload = (e) => {
             try {
-                const workbook = XLSX.read(e.target.result, { type: 'binary' });
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
                 const sheetName = workbook.SheetNames[0];
                 const sheet = workbook.Sheets[sheetName];
-                const data = XLSX.utils.sheet_to_json(sheet);
+                const jsonData = XLSX.utils.sheet_to_json(sheet);
                 // Set local state with the Excel data
-                setExcelData(data);
+                setExcelData(jsonData);
                 // Store the file in the state
                 setSelectedFile(file);
             } catch (error) {
@@ -125,7 +145,7 @@ const FileUploadToApi = ({ setData }) => {
         reader.onerror = () => {
             setMessage('Error uploading the file.');
         };
-        reader.readAsBinaryString(file);
+        reader.readAsArrayBuffer(file);
     };
 
     // Filter data based on the academic year and user role

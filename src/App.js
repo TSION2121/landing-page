@@ -33,6 +33,10 @@ import ChatInterface from "./components/SendMessage";
 import CalendarPage from "./components/Calendar/CalendarPage";
 import CalendarView from "./components/Calendar/CalendarView";
 import Result from "./pages/Coordinator/Result";
+import AdminRoute from "./pages/Route/AdminRoute";
+import SignInSide from "./pages/Contact/Login";
+import {AuthProvider} from "./Context/AuthContext";
+import {Routing} from "./pages/Route/Routing";
 
 const theme = createTheme({
     palette: {
@@ -111,54 +115,18 @@ const App = () => {
         <>
             <CssBaseline />
             <Container maxWidth="lg" >
+                <AuthProvider>
+
                 <DrawerAppBar />
+                </AuthProvider>
                 {/*<Box sx={{ display: 'inline' } }>*/}
 
                 {/*</Box>*/}
                 <Box component="main" sx={{ p: 10 }}>
-                    <Routes>
-                        <Route path="/sendMessage" element={<ChatInterface />} />
-                        <Route path="/MessagePage" element={<MessagePage />} />
-                        <Route path="/result" element={<Result />} />
 
-                        <Route path="/addCalendar" element={<CalendarPage />} />
-                        <Route path="/view" element={<CalendarView />} />
-                        <Route path="/sendMessage/:recipientId" element={<ChatInterface />} />
-                        <Route path="/MessagePage/:messageId" element={<MessagePage />} />
-                        <Route path="/newss" element={<Newss />} />
-                        <Route path="/forminsertion" element={<DynamicForm />} />
-
-                        <Route path="/insert" element={<Insertion />} />
-                        <Route path="/coordinator/dashboard" element={<CoDashboard />} />
-
-
-                        <Route path="/layout-news" element={<LayoutNews />} />
-                        <Route path="/" element={<Home />} />
-                        <Route path="/courses" element={<Courses />} />
-                        <Route path="/about" element={<About />} />
-                        <Route path="/news" element={<News />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/file" element={<FileUpload />} />
-                        <Route path="/fileapi" element={<FileUploadToApi />} />
-
-                        <Route path="/analysis" element={<MainPage />} />
-                        <Route path='/users' element={<UsersPage />}/>
-                        <Route path="/dashboard/*" element={<Dashboard />} /> {/* Nested admin routes */}
-                        <Route path="/dashboard2/*" element={<Dashboard2 />} /> {/* Nested admin routes */}
-
-
-
-                        <Route path="admin/*" element={<AdminRoutes />} /> {/* Nested admin routes */}
-
-
-
-
-
-
-
-
-                    </Routes>
-
+<AuthProvider>
+    <Routing/>
+                </AuthProvider>
 
                 </Box>
 

@@ -13,8 +13,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import { startTransition } from 'react';
-
+import {useTheme} from "@mui/material/styles";
+import {useContext, useState} from "react";
+import {AuthContext} from "../../Context/AuthContext";
 
 function Copyright(props) {
     return (
@@ -22,7 +23,7 @@ function Copyright(props) {
             {'Copyright © '}
             {/*Edit this*/}
             <Link color="inherit" href="https://mui.com/">
-                IETP Website
+                St. Yared Website
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -34,23 +35,64 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
+
+
 export default function SignInSide() {
     const navigate = useNavigate();
+    const theme = useTheme();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const { login, logout, isAuthenticated } = useContext(AuthContext);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-        startTransition(() => {
-            navigate('/file');
-        });
+
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            if (response.ok) {
+                const { token, userId, username, role } = await response.json();
+                login(token, userId, username, role );
+
+                // Navigate to different pages based on role
+                switch (role) {
+                    case 'ADMIN': // further check needed
+                        navigate('/insert');
+                        break;
+                    case 'COORDINATOR':
+                        navigate('/coordinator/dashboard');
+                        break;
+                    case 'ADVISOR':
+                        navigate('/advisor-dashboard');
+                        break;
+                    case 'STUDENT':
+                        navigate('/student-dashboard');
+                        break;
+                    default:
+                        navigate('/');
+                }
+            } else if (response.status === 404) {
+                console.error('Endpoint not found. Status:', response.status);
+                // Handle 404-specific logic here
+            } else {
+                console.error('Login failed. Status:', response.status);
+                // Handle other errors here
+            }
+
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
     };
 
     return (
-        <ThemeProvider theme={defaultTheme}>
+        <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <CssBaseline />
                 <Grid
@@ -83,18 +125,24 @@ export default function SignInSide() {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                        <Box component="form" noValidate onSubmit={handleLogin} sx={{ mt: 1 }}>
+
+
                             <TextField
+                                onChange={(e) => setUsername(e.target.value)}
+                                value={username}
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
+                                id="username"
+                                label="Username"
+                                name="username"
+                                autoComplete="username"
                                 autoFocus
                             />
                             <TextField
+                                onChange={(e) => setPassword(e.target.value)}
+                                value={password}
                                 margin="normal"
                                 required
                                 fullWidth
@@ -117,12 +165,16 @@ export default function SignInSide() {
                                 Sign In
                             </Button>
                             <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant="body2" >
-                                        Forgot password?
-                                    </Link>
-                                </Grid>
-
+                                {/*<Grid item xs>*/}
+                                {/*    <Link href="#" variant="body2">*/}
+                                {/*        Forgot password?*/}
+                                {/*    </Link>*/}
+                                {/*</Grid>*/}
+                                {/*<Grid item>*/}
+                                {/*    <Link href="/register" variant="body2">*/}
+                                {/*        {"Don't have an account? Sign Up"}*/}
+                                {/*    </Link>*/}
+                                {/*</Grid>*/}
                             </Grid>
                             <Copyright sx={{ mt: 5 }} />
                         </Box>

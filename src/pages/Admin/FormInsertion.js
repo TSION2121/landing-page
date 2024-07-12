@@ -16,6 +16,7 @@ import { useLocation } from 'react-router-dom';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import axios from 'axios';
+import API_ENDPOINTS from "../Api/API_ENDPOINTS";
 
 const DynamicForm = () => {
     const location = useLocation();
@@ -31,13 +32,14 @@ const DynamicForm = () => {
         role: '',
         studentId: '',
         teacherId: '',
+        coordinatorId: '',
         firstName: '',
         lastName: '',
         email: '',
         fieldOfEngineering: '',
         cgpa: '',
         gender: '',
-        date: null,
+        date: 'Select',
     });
 
     const [errors, setErrors] = useState({});
@@ -82,7 +84,8 @@ const DynamicForm = () => {
                 isValid = false;
             }
         } else if (['Add Teachers', 'Add Coordinators'].includes(formData.role)) {
-            const staffFields = ['teacherId'];
+            const staffFields = ['teacherId','date','fieldOfEngineering','gender'
+        ];
             staffFields.forEach(field => {
                 if (!formData[field]) {
                     tempErrors[field] = 'This field is required';
@@ -108,7 +111,10 @@ const DynamicForm = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3001/formData', formData);
+            const url = API_ENDPOINTS[formData.role];
+            const response = await axios.post(url, formData);
+            // const response = await axios.post('http://localhost:3001/formData', formData);
+
             console.log('Form submitted successfully:', response.data);
 
             // Reset the form but keep the role
@@ -116,6 +122,7 @@ const DynamicForm = () => {
                 ...prevFormData,
                 studentId: '',
                 teacherId: '',
+                coordinatorId: '',
                 firstName: '',
                 lastName: '',
                 email: '',
@@ -130,6 +137,7 @@ const DynamicForm = () => {
                 ...prevErrors,
                 studentId: '',
                 teacherId: '',
+                coordinatorId: '',
                 firstName: '',
                 lastName: '',
                 email: '',
@@ -285,6 +293,49 @@ const DynamicForm = () => {
                             onChange={handleChange}
                             error={Boolean(errors.teacherId)}
                             helperText={errors.teacherId || ''}
+                        />
+
+                        <TextField
+                            required
+                            size="small"
+                            name="fieldOfEngineering"
+                            label="Field of Engineering"
+                            value={formData.fieldOfEngineering}
+                            onChange={handleChange}
+                            error={Boolean(errors.fieldOfEngineering)}
+                            helperText={errors.fieldOfEngineering || ''}
+                        />
+                        <FormControl margin="normal" error={Boolean(errors.gender)}>
+                            <InputLabel id="gender-select-label">Gender</InputLabel>
+                            <Select
+                                labelId="gender-select-label"
+                                id="gender-select"
+                                name="gender"
+                                value={formData.gender}
+                                label="Gender"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value="Male">Male</MenuItem>
+                                <MenuItem value="Female">Female</MenuItem>
+                            </Select>
+                            {errors.gender && <FormHelperText>{errors.gender}</FormHelperText>}
+                        </FormControl>
+
+                    </>
+                )}
+
+                {[ 'Add Coordinators'].includes(formData.role) && (
+                    <>
+
+                        <TextField
+                            required
+                            size="small"
+                            name="coordinatorId"
+                            label="Coordinator ID"
+                            value={formData.coordinatorId}
+                            onChange={handleChange}
+                            error={Boolean(errors.coordinatorId)}
+                            helperText={errors.coordinatorId || ''}
                         />
 
                     </>
