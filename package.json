@@ -2,6 +2,7 @@
   "name": "react-university-website",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://tsion2121.github.io/landing-page/",
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -52,6 +53,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -73,6 +75,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^6.1.1",
     "vite": "^5.2.9"
   }
 }

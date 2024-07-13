@@ -37,7 +37,7 @@ const blogs = [
         description: 'News IETPF'
     }
 ];
-const videoIds = ['https://youtu.be/qeLMIzrbZf0?list=RDqeLMIzrbZf0', 'https://youtu.be/rYBWla-Q-fE?list=RDrYBWla-Q-fE', 'videoId3'];
+const videoIds = ['i5xMLoouD2w?si=9DKjKCz9v_wjC2Zw', 'hsF4OeH0e0A?si=0QJPBMhYT3B3SsmK', 'psYjHiXt774?si=je3J9OIHg7_c1mB2'];
 
 
 function Home() {

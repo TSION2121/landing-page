@@ -343,15 +343,11 @@ const Insertion = () => {
                                   <TableCell sx={{ width: 200 }}>Status</TableCell>
                                   <TableCell sx={{ width: 200 }}>Students</TableCell>
                                   <TableCell sx={{ width: 200 }}>Advisors</TableCell>
-                                  {/*<TableCell sx={{ width: 200 }}>Coordinators</TableCell>*/}
                                   <TableCell sx={{ width: 400 }}>Take Action</TableCell>
 
 
 
-                                  {/*<th*/}
-                                  {/*    aria-label="last"*/}
-                                  {/*    style={{ width: 'var(--Table-lastColumnWidth)' }}*/}
-                                  {/*/>*/}
+
                               </TableRow>
                               </TableHead>
                               <tbody>
@@ -361,7 +357,6 @@ const Insertion = () => {
                                       <td>{group.status}</td>
                                       <td>{group.students}</td>
                                       <td>{group.advisor}</td>
-                                      {/*<td>{group.coordinator}</td>*/}
 
 
 

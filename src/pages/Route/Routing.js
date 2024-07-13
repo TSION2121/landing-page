@@ -38,7 +38,7 @@ export  function Routing(){
         <Route path="/MessagePage/:messageId" element={<MessagePage />} />
         <Route path="/newss" element={<Newss />} />
         <Route path="/insert" element={  <AdminRoute >
-            <Insertion /> />
+            <Insertion />
         </AdminRoute>} />
         <Route path="/coordinator/dashboard" element={<CoDashboard />} />
 
