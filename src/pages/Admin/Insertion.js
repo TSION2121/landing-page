@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -16,6 +16,7 @@ import axios from "axios";
 import {Pagination, Table, TableCell, TableHead, TableRow} from "@mui/material";
 import * as rows from "react-bootstrap/ElementChildren";
 import BlueThemeTable from "../../components/BlueThemeTable";
+import {AuthContext} from "../../Context/AuthContext";
 
 const images = [
     {
@@ -187,7 +188,10 @@ const Insertion = () => {
     const itemsPerPage = 5;
     const [loading, setLoading] = useState(true);
     const [groups, setGroups] = useState([]);
-
+    const { isAdmin ,authState } = useContext(AuthContext);
+    // if (!isAdmin) {
+    //     return null; // Or redirect to a "Not Authorized" or "404 Not Found" page
+    // }
     useEffect(() => {
         setLoading(true);
         const year = selectedDate.getFullYear();

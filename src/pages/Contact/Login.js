@@ -42,9 +42,42 @@ export default function SignInSide() {
     const theme = useTheme();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { login, logout, isAuthenticated } = useContext(AuthContext);
+    // const { login, logout, isAuthenticated } = useContext(AuthContext);
+    const { login } = useContext(AuthContext);
+    const [formSubmitted, setFormSubmitted] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
 
+    const handleLogins = async (e) => {
+        e.preventDefault();
+
+
+        try {
+            const response = await fetch('http://localhost:8082/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            if (response.ok) {
+                const { token, refreshToken, userId, username, role } = await response.json();
+                console.log('Login response:', { token, refreshToken, userId, username, role });
+                login(token, refreshToken, userId, username, role === 'ADMIN');
+                navigate(role === 'ADMIN' ? '/admin/dashboard' : '/user/dashboard');
+            } else if (response.status === 404) {
+                setErrorMessage('Endpoint not found.');
+            } else if (response.status === 401) {
+                setErrorMessage('Invalid username or password.');
+            } else {
+                setErrorMessage('Login failed. Please try again.');
+            }
+
+        } catch (error) {
+            setErrorMessage('An error occurred. Please try again.');
+        }
+    };
 
     const handleLogin = async (e) => {
         e.preventDefault();
